@@ -108,7 +108,7 @@
 <meta property="og:url" content="http://www.yevvb.com/2017/03/11/MVC-Backbone/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
-<meta property="og:updated_time" content="2017-03-11T14:55:01.606Z">
+<meta property="og:updated_time" content="2017-03-11T15:04:18.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MVC Backbone">
 <meta name="twitter:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
@@ -422,7 +422,7 @@
       
         <p>最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此<a id="more"></a>从 Backbone 入手来学习这类库（框架）的设计思想。</p>
 <h3 id="Backbone-的特点"><a href="#Backbone-的特点" class="headerlink" title="Backbone 的特点"></a>Backbone 的特点</h3><blockquote>
-<p>Backbone 是构建 JavaScript 应用程序的一个优秀类库。他的优美之处在于其简洁。<br>这是一个轻量类库，覆盖了基础的功能，同时提供了最大的灵活性。（大小请参阅官方文件）<br>MVC 是贯穿 Backbone 核心的模式。提供了模型、控制器和视图——骨架。<br>Backbone 唯一以来 underscore.js，其提供非常有用的工具和 js 函数。<br>除了 underscore，还可以使用 jQuery zepto 来提升 Backbone 处理视图的能力</p>
+<p>Backbone 是构建 JavaScript 应用程序的一个优秀类库,他的优美之处在于其简洁。<br>这是一个轻量类库，覆盖了基础的功能，同时提供了最大的灵活性。（大小请参阅官方文件）<br>MVC 是贯穿 Backbone 核心的模式。提供了模型、控制器和视图——骨架。<br>Backbone 唯一以来 underscore.js，其提供非常有用的工具和 js 函数。<br>除了 underscore，还可以使用 jQuery zepto 来提升 Backbone 处理视图的能力</p>
 </blockquote>
 <p>引用来自《MVC》-chapter 12</p>
 <h3 id="知乎上关于-Backbone-的回答"><a href="#知乎上关于-Backbone-的回答" class="headerlink" title="知乎上关于 Backbone 的回答"></a>知乎上关于 Backbone 的回答</h3><p>Backbone 最适合的应用场景是单页面应用，并且页面上有大量数据模型，模型之间需要进行复杂的信息沟通。Backbone 在这种场景下，能很好的实现模块间松耦合和事件驱动。 其他适用产品还有微博，网易微博的前端设计也是和 Backbone 类似的一个结构。</p>
@@ -446,7 +446,7 @@
 </ul>
 <p>总体来说 Backbone 还很轻，框架很漂亮但是有些细节还比较粗糙。用之前要做好对 Backbone 进行大量扩展甚至 Hack 的准备。</p>
 <blockquote>
-<p>作者：pw<br>来源：<a href="https://www.zhihu.com/question/19720745/answer/14315565" target="_blank" rel="external">知乎 链接</a><br>著作权归作者所有，转载请联系作者获得授权。</p>
+<p>作者：pw<br>来源：<a href="https://www.zhihu.com/question/19720745/answer/14315565" target="_blank" rel="external">知乎 链接</a></p>
 </blockquote>
 <h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Backbone.Model</div></pre></td></tr></table></figure>
 <p>模型是保存应用程序数据的地方。可以想象为 APP 原始数据精心设计的抽象，并且添加了一些工具函数和事件。</p>
