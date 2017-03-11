@@ -102,16 +102,16 @@
 
 
 
-<meta name="description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？正好也从 Backbone 入手来学习这类库（框架）的设计思想。">
+<meta name="description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MVC Backbone">
 <meta property="og:url" content="http://www.yevvb.com/2017/03/11/MVC-Backbone/index.html">
 <meta property="og:site_name" content="Yevvb">
-<meta property="og:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？正好也从 Backbone 入手来学习这类库（框架）的设计思想。">
-<meta property="og:updated_time" content="2017-03-11T14:27:54.799Z">
+<meta property="og:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
+<meta property="og:updated_time" content="2017-03-11T14:40:45.386Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MVC Backbone">
-<meta name="twitter:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？正好也从 Backbone 入手来学习这类库（框架）的设计思想。">
+<meta name="twitter:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
 
 
 
@@ -341,6 +341,39 @@
           </span>
 
           
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Framework/" itemprop="url" rel="index">
+                    <span itemprop="name">Framework</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Framework/Jacascript/" itemprop="url" rel="index">
+                    <span itemprop="name">Jacascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -387,8 +420,7 @@
       
 
       
-        <p>最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？正好也从 Backbone 入手来学习这类库（框架）的设计思想。</p>
-<a id="more"></a>
+        <p>最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此<a id="more"></a>从 Backbone 入手来学习这类库（框架）的设计思想。</p>
 <h3 id="Backbone-的特点"><a href="#Backbone-的特点" class="headerlink" title="Backbone 的特点"></a>Backbone 的特点</h3><blockquote>
 <p>Backbone 是构建 JavaScript 应用程序的一个优秀类库。他的优美之处在于其简洁。<br>这是一个轻量类库，覆盖了基础的功能，同时提供了最大的灵活性。（大小请参阅官方文件）<br>MVC 是贯穿 Backbone 核心的模式。提供了模型、控制器和视图——骨架。<br>Backbone 唯一以来 underscore.js，其提供非常有用的工具和 js 函数。<br>除了 underscore，还可以使用 jQuery zepto 来提升 Backbone 处理视图的能力</p>
 </blockquote>
@@ -581,11 +613,18 @@
           
 
           
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
 
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
