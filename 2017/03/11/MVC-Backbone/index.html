@@ -108,7 +108,7 @@
 <meta property="og:url" content="http://www.yevvb.com/2017/03/11/MVC-Backbone/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
-<meta property="og:updated_time" content="2017-03-11T15:04:18.715Z">
+<meta property="og:updated_time" content="2017-03-11T15:09:08.726Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MVC Backbone">
 <meta name="twitter:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
@@ -422,7 +422,7 @@
       
         <p>最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此<a id="more"></a>从 Backbone 入手来学习这类库（框架）的设计思想。</p>
 <h3 id="Backbone-的特点"><a href="#Backbone-的特点" class="headerlink" title="Backbone 的特点"></a>Backbone 的特点</h3><blockquote>
-<p>Backbone 是构建 JavaScript 应用程序的一个优秀类库,他的优美之处在于其简洁。<br>这是一个轻量类库，覆盖了基础的功能，同时提供了最大的灵活性。（大小请参阅官方文件）<br>MVC 是贯穿 Backbone 核心的模式。提供了模型、控制器和视图——骨架。<br>Backbone 唯一以来 underscore.js，其提供非常有用的工具和 js 函数。<br>除了 underscore，还可以使用 jQuery zepto 来提升 Backbone 处理视图的能力</p>
+<p>Backbone 是构建 JavaScript 应用程序的一个优秀类库，他的优美之处在于其简洁。<br>这是一个轻量类库，覆盖了基础的功能，同时提供了最大的灵活性。（大小请参阅官方文件）<br>MVC 是贯穿 Backbone 核心的模式。提供了模型、控制器和视图——骨架。<br>Backbone 唯一以来 underscore.js，其提供非常有用的工具和 js 函数。<br>除了 underscore，还可以使用 jQuery zepto 来提升 Backbone 处理视图的能力</p>
 </blockquote>
 <p>引用来自《MVC》-chapter 12</p>
 <h3 id="知乎上关于-Backbone-的回答"><a href="#知乎上关于-Backbone-的回答" class="headerlink" title="知乎上关于 Backbone 的回答"></a>知乎上关于 Backbone 的回答</h3><p>Backbone 最适合的应用场景是单页面应用，并且页面上有大量数据模型，模型之间需要进行复杂的信息沟通。Backbone 在这种场景下，能很好的实现模块间松耦合和事件驱动。 其他适用产品还有微博，网易微博的前端设计也是和 Backbone 类似的一个结构。</p>
@@ -462,7 +462,7 @@
 <h3 id="绑定和上下文"><a href="#绑定和上下文" class="headerlink" title="绑定和上下文"></a>绑定和上下文</h3><p>一旦视图发生改变，就会触发 change 事件，使得应用程序的视图和与之对应的模型数据是同步绑定的。而此时唯一需要注意的是 this 指示的上下文会发生变化。</p>
 <h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><p>Backbone 的控制器将应用程序的状态和 URL 的 hash 片段关联在一起，使 URL 地址可分享，也可作为书签使用。<br>本质上，控制器由一些路由和函数构成，当导航到这些路由时那些函数就会被调用。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var PageController = Backbone.Controller.extend(&#123;</div><div class="line">  routes: &#123;</div><div class="line">    &quot;&quot;: &quot;index&quot;,</div><div class="line">    &quot;help&quot;: &quot;help&quot;, // #help</div><div class="line">    &quot;search/:query&quot;: &quot;search&quot;, // #search/kiwis</div><div class="line">    &quot;search/:query/p:page&quot;: &quot;search&quot; // #search/kiwis/p7</div><div class="line">  &#125;,</div><div class="line">  index: function()&#123; /* ... */ &#125;,</div><div class="line">  help: function() &#123;</div><div class="line">    // ...</div><div class="line">  &#125;,</div><div class="line">  search: function(query, page) &#123;</div><div class="line">    // ...</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="与服务器同步的问题"><a href="#与服务器同步的问题" class="headerlink" title="与服务器同步的问题"></a>与服务器同步的问题</h3><h3 id="第一次如何从服务器获取模型数据（fetch）"><a href="#第一次如何从服务器获取模型数据（fetch）" class="headerlink" title="第一次如何从服务器获取模型数据（fetch）"></a>第一次如何从服务器获取模型数据（fetch）</h3><h3 id="服务器端如何存储"><a href="#服务器端如何存储" class="headerlink" title="服务器端如何存储"></a>服务器端如何存储</h3><h3 id="如何自定义行为"><a href="#如何自定义行为" class="headerlink" title="如何自定义行为"></a>如何自定义行为</h3><h3 id="todo-应用实践"><a href="#todo-应用实践" class="headerlink" title="todo 应用实践"></a><a href="www.github.com/yevvb/todoByBackbone">todo 应用实践</a></h3><hr>
+<h3 id="与服务器同步的问题"><a href="#与服务器同步的问题" class="headerlink" title="与服务器同步的问题"></a>与服务器同步的问题</h3><h3 id="第一次如何从服务器获取模型数据（fetch）"><a href="#第一次如何从服务器获取模型数据（fetch）" class="headerlink" title="第一次如何从服务器获取模型数据（fetch）"></a>第一次如何从服务器获取模型数据（fetch）</h3><h3 id="服务器端如何存储"><a href="#服务器端如何存储" class="headerlink" title="服务器端如何存储"></a>服务器端如何存储</h3><h3 id="如何自定义行为"><a href="#如何自定义行为" class="headerlink" title="如何自定义行为"></a>如何自定义行为</h3><h3 id="todo-应用实践"><a href="#todo-应用实践" class="headerlink" title="todo 应用实践"></a><a href="https://github.com/Yevvb/todoByBackbone" target="_blank" rel="external">todo 应用实践</a></h3><hr>
 <p><strong>总结</strong>：backbone 为我们解耦了模型、视图和控制层，结构清晰简洁。</p>
 
       
