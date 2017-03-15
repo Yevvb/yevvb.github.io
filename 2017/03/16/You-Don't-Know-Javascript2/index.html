@@ -102,16 +102,16 @@
 
 
 
-<meta name="description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？">
+<meta name="description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？ 什么是函数作用域？ 私有变量是怎么实现的？ 命名空间如何规避冲突？匿名函数的写法以及有点在哪儿？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="You don't know JavaScript(Chapter 1.2-1.3)">
 <meta property="og:url" content="http://www.yevvb.com/2017/03/16/You-Don't-Know-Javascript2/index.html">
 <meta property="og:site_name" content="Yevvb">
-<meta property="og:description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？">
-<meta property="og:updated_time" content="2017-03-15T17:25:57.284Z">
+<meta property="og:description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？ 什么是函数作用域？ 私有变量是怎么实现的？ 命名空间如何规避冲突？匿名函数的写法以及有点在哪儿？">
+<meta property="og:updated_time" content="2017-03-15T17:43:50.310Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="You don't know JavaScript(Chapter 1.2-1.3)">
-<meta name="twitter:description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？">
+<meta name="twitter:description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？ 什么是函数作用域？ 私有变量是怎么实现的？ 命名空间如何规避冲突？匿名函数的写法以及有点在哪儿？">
 
 
 
@@ -420,7 +420,7 @@
       
 
       
-        <p>什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？<a id="more"></a> 什么是函数作用域？ 私有变量是怎么实现的？ 命名空间如何规避冲突？匿名函数的写法以及有点在哪儿？ ES6又是如何实现块作用域，babel 又是如何将其编译成兼容ES5的呢？ try/catch 仅仅用来调试吗？</p>
+        <p>什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？ 什么是函数作用域？ 私有变量是怎么实现的？ 命名空间如何规避冲突？匿名函数的写法以及有点在哪儿？<a id="more"></a> ES6又是如何实现块作用域，babel 又是如何将其编译成兼容ES5的呢？ try/catch 仅仅用来调试吗？</p>
 <h3 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h3><p>回到编译器工作的第一个阶段，叫做词法化（单词化）。即对源代码中的字符进行检查，如果是有状态的解析过程，还会富裕单词意义。</p>
 <p><strong>词法作用域就是定义在词法阶段（查找标识符）的作用域</strong>。换句话说，就是在你写代码的时候你的变量和块作用域写在哪里，就决定了词法作用域的范围，这一切都是可以估量的（那么什么是不可预计的呢？），因此在词法分析阶段会保持作用域不变。（书写位置决定范围）</p>
 <p>查找，作用域查找会在找到都一个匹配的标识符停止。在多层嵌套作用域中可以定义同名的标识符，这叫做<em>遮蔽效应</em>（内部遮蔽外部唯一吗？），查找由内而外。</p>
