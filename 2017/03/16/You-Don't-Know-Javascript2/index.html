@@ -1,0 +1,1124 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="reading,Javascript,JS secrets,作用域,闭包,块作用域," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="You don't know JavaScript(Chapter 1.2-1.3)">
+<meta property="og:url" content="http://www.yevvb.com/2017/03/16/You-Don't-Know-Javascript2/index.html">
+<meta property="og:site_name" content="Yevvb">
+<meta property="og:description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？">
+<meta property="og:updated_time" content="2017-03-15T17:25:57.284Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="You don't know JavaScript(Chapter 1.2-1.3)">
+<meta name="twitter:description" content="什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6372124684347000000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.yevvb.com/2017/03/16/You-Don't-Know-Javascript2/"/>
+
+
+
+
+
+  <title> You don't know JavaScript(Chapter 1.2-1.3) | Yevvb </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yevvb</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">让时间有迹可循</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/03/16/You-Don't-Know-Javascript2/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="叶文斌">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/images/avatar.gif">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Yevvb">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Yevvb" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                You don't know JavaScript(Chapter 1.2-1.3)
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-16T01:25:22+08:00">
+                2017-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Books/" itemprop="url" rel="index">
+                    <span itemprop="name">Books</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Books/Javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">Javascript</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/03/16/You-Don't-Know-Javascript2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/16/You-Don't-Know-Javascript2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/03/16/You-Don't-Know-Javascript2/" class="leancloud_visitors" data-flag-title="You don't know JavaScript(Chapter 1.2-1.3)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>什么是词法化和词法作用域？ 你知道为什么不推荐 eval(…) 和 with 吗，以及这两者如何造成了性能下降的？<a id="more"></a> 什么是函数作用域？ 私有变量是怎么实现的？ 命名空间如何规避冲突？匿名函数的写法以及有点在哪儿？ ES6又是如何实现块作用域，babel 又是如何将其编译成兼容ES5的呢？ try/catch 仅仅用来调试吗？</p>
+<h3 id="词法作用域"><a href="#词法作用域" class="headerlink" title="词法作用域"></a>词法作用域</h3><p>回到编译器工作的第一个阶段，叫做词法化（单词化）。即对源代码中的字符进行检查，如果是有状态的解析过程，还会富裕单词意义。</p>
+<p><strong>词法作用域就是定义在词法阶段（查找标识符）的作用域</strong>。换句话说，就是在你写代码的时候你的变量和块作用域写在哪里，就决定了词法作用域的范围，这一切都是可以估量的（那么什么是不可预计的呢？），因此在词法分析阶段会保持作用域不变。（书写位置决定范围）</p>
+<p>查找，作用域查找会在找到都一个匹配的标识符停止。在多层嵌套作用域中可以定义同名的标识符，这叫做<em>遮蔽效应</em>（内部遮蔽外部唯一吗？），查找由内而外。</p>
+<p>备注：全局变量会自动成为全局对象（window、global）的属性，因此可以通过全局对象属性的引用来进行访问（对于被遮蔽的变量能够通过这种方式查到，但是仅限于全局变量，非全局则是被替换）。</p>
+<p><strong>欺骗词法</strong></p>
+<p>eval &amp; with</p>
+<p>eval: 我们经常动态插入代码，而引擎则会认为被 eval 插入的代码所处位置就是 eval 所处的作用域，这就导致了该词法作用域会在运行期间被修改（例如声明局部变量导致内容被替换等等）。</p>
+<p>with：通常被当做重复引用一个对象中多个属性的快捷方式，问题就出在这里，万一里面包含了词法作用域内没有的属性或变量，那么就会造成全局污染（非严格模式下赋值查询的弊端）。需要注意的是，with 可以将一个没有或者有多个属性的对象处理为一个完全隔离的词法作用域，同时将该对象的属性定义为词法作用域的词法标识符。</p>
+<p>这两种方式都会造成词法解析过程的不确定性，因为无法对作用域查找进行优化，引擎会认为我做的这些都是白做的，最终的结果就是性能的严重下降，甚至是带来安全的隐患。</p>
+<p><em>好消息是：严格模式下两则都被禁用了。</em></p>
+<h3 id="函数作用域和块作用域"><a href="#函数作用域和块作用域" class="headerlink" title="函数作用域和块作用域"></a>函数作用域和块作用域</h3><p><em>请把一个函数作用域想象成一个气泡（虽然不合理）</em></p>
+<p><strong>函数中的作用域</strong></p>
+<p>  属于这个函数的全部变量都可以在整个函数的范围内使用以及复用（实际在嵌套的作用域中也可以访问）。这样的设计方案，充分利用了 JavaScript 变量可根据需要改变值类型的‘动态’特性。与此同时，意味着全局变量随时都能被任意位置访问，这就会带来意想不到的结果。</p>
+<p><strong>隐藏内部实现</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomething</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">  b = a + doSomethingElse( a * <span class="number">2</span> );</div><div class="line">  <span class="built_in">console</span>.log( b * <span class="number">3</span>）；</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">doSomethingElse</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> a - <span class="number">1</span>;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> b;</div><div class="line"></div><div class="line">doSomething( <span class="number">2</span> ); <span class="comment">// 15</span></div></pre></td></tr></table></figure>
+<p>这是一段原文中的例子，b 和 doSomethingElse 本该是 doSomething 的内部实现，然后因为写在函数外部，使得外部作用域拥有<em>‘访问权限’</em>，一旦被修改，那么我们就无法从 doSomething 得到我们预期想要的结果。这就是为何需要隐藏！</p>
+<p>  先声明函数，然后在里面写代码是传统的思维。反过来思考，将一段代码挑选出来，用函数声明对其进行包装，实际上就相当于将代码隐藏了。于是就在这个代码片段周围新建了一个作用域气泡。（用作用域去隐藏一段代码，为什么要隐藏？）</p>
+<p>  软件设计的最小授权或最小暴露原则，指的是最小限度地暴露必要内容，而将其他内容都‘隐藏’起来，比如某个模块或对象的 API 设计。阻止部分访问，实现变量或函数的私有。</p>
+<p><strong>规避冲突</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params">a</span>) </span>&#123;</div><div class="line">    i = <span class="number">3</span>; <span class="comment">//修改了 for 循环所属作用域中的 i</span></div><div class="line">    <span class="built_in">console</span>.log( a + i ); <span class="comment">// a 为8，所以输出 11，但是 i 还是为3 &lt; 10</span></div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">for</span> (<span class="keyword">var</span> i=<span class="number">0</span>; i&lt;<span class="number">10</span>; i++) &#123;</div><div class="line">    <span class="built_in">console</span>.log(i); <span class="comment">// 3 + 1 = 4</span></div><div class="line">    bar( i * <span class="number">2</span>); <span class="comment">//糟糕，无限循环了！因为声明会提前，赋值是运行到此处才会执行</span></div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">foo() <span class="comment">// 日志打印(4 11)无限循环;</span></div></pre></td></tr></table></figure>
+<p>  看上面的例子，因为 bar 函数内部忘记声明（隐藏），导致全局创建了 i 变量，以致于污染了 for 循环（循环内var 会提到 foo的顶部，在执行 bar 是 i 被赋值，所以 i 始终为 3）。</p>
+<p>  前面我们提过‘<em>遮蔽效应</em>’，‘隐藏’作用域中的变量和函数带来的好处就是可以避免同名标识符之间的冲突。</p>
+<ul>
+<li>全局命名空间：第三方库在实现过程中如果没有妥善地将内部私有函数和变量隐藏起来，那么就极易引发冲突（jQuery 的实现，$/jquery 的使用）。</li>
+<li>模块管理：现代的模块机制，使用这些工具，任何库都无需将标识符加入到全局作用域中，而是通过依赖管理器的机制将库的标识符显式导入到另外一个特定的作用域中（webpack 就是一个模块化打包工具，require/AMD/ES6 moudle 是规范）。</li>
+</ul>
+<p><strong>函数作用域</strong></p>
+<p>上面我们提到如何隐藏内部实现，通过包装函数来讲变量或者函数隐藏起来，但是这仍旧会生成一些具名函数（比如 foo()），这就意味着 foo 这个名字本身‘污染’了当前作用域。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">(function foo() &#123; // &lt;-- 注意开头 （function...</div><div class="line"></div><div class="line">  var a = 3;</div><div class="line">  console.log(a); // 3</div><div class="line"></div><div class="line">&#125;)(); // &lt;-- 注意结尾 ...)()</div><div class="line"></div><div class="line">console.log( a ); //Uncaught ReferenceError: a is not defined</div></pre></td></tr></table></figure></p>
+<p>可以看到外部无法访问到 a 变量。</p>
+<p>该包装函数声明以（function… 而不是以 function… 开始，函数会被当做函数表达式而不是一个标准的函数声明来处理。</p>
+<p>!important &gt;&gt;&gt;</p>
+<blockquote>
+<p>区分函数声明和表达式最简单的方法是看 function 关键字出现的位置（不仅仅是一行代码，而是整个声明中的位置）。如果 function 是声明中的第一个词，那么就是一个函数声明，否则就是一个函数表达式。<br>(function foo() { .. }) 作为函数表达式意味着，foo 只能在 .. 所代表的位置中被访问，外部作用域作为无法访问，也就不会非必要的污染外部作用域。</p>
+</blockquote>
+<p><strong>匿名和具名</strong> </p>
+<p>来看一个熟悉的场景：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">setTimeout( <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'blablabla'</span>)</div><div class="line">&#125;, <span class="number">1000</span>);</div></pre></td></tr></table></figure></p>
+<p>这个叫做<em>匿名函数表达式</em>，因为 function() {} 没有函数名，也就是名称标识符。函数表达式可以匿名，但是函数声明则不可以省略函数名————非法操作。</p>
+<p>匿名函数表达式的缺点：</p>
+<ul>
+<li>匿名函数在栈追踪不会显示出有意义的函数名，使得调试很困难。</li>
+<li>没有函数名，当需要进行引用的时候只能用 <em>过期的</em> arguments.callee 引用，例如递归，例如事件触发之后解除监听。</li>
+<li>匿名函数省略了函数名，代码可读性变差。</li>
+</ul>
+<p>解决办法：行内函数表达式————匿名和具名都对此无影响，解决了上述问题；<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 最佳实践</span></div><div class="line">setTimeout( <span class="function"><span class="keyword">function</span> <span class="title">timeoutHandler</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'blablabla'</span>)</div><div class="line">&#125;, <span class="number">1000</span>);</div></pre></td></tr></table></figure></p>
+<p><strong>立即执行函数表达式</strong></p>
+<p>函数写在括号内变成了一个函数表达式，那么在后面加一对括号，就可以立即执行这个函数。</p>
+<p><strong>IIFE</strong>：（Immediately Invoked Function Expression）立即执行函数表达式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var a = 3;</div><div class="line"></div><div class="line">(function IIFE(a) &#123; console.log(a); &#125;)(2);</div><div class="line"></div><div class="line">console.log(a); // 3</div></pre></td></tr></table></figure>
+<p>另外一种写法，功能上一致，任凭喜好：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var a = 3;</div><div class="line"></div><div class="line">(function IIFE(a) &#123; console.log(a); &#125;(2));</div><div class="line"></div><div class="line">console.log(a); // 3</div></pre></td></tr></table></figure></p>
+<p>IIFE 用法进阶：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var a = 2;</div><div class="line"></div><div class="line">(function (global) &#123;</div><div class="line"></div><div class="line"> var a = 3;</div><div class="line"> console.log(a); //3</div><div class="line"> console.log(global.a); // 2</div><div class="line"> </div><div class="line">&#125;)(window);</div><div class="line"></div><div class="line">console.log(a); // 2</div></pre></td></tr></table></figure>
+<p>可以帮助你改进代码风格，使得对全局对象的引用变得比引用一个没有‘全局’资源的变量更加清晰（global.a 很明显是全局变量）。</p>
+<p>还有一种常见的模式，就是参数默认为 undefined</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="literal">undefined</span> = <span class="literal">true</span>; <span class="comment">// 这里有坑</span></div><div class="line"></div><div class="line">(<span class="function"><span class="keyword">function</span> <span class="title">IIFE</span>(<span class="params"> undefined </span>) </span>&#123;</div><div class="line">  </div><div class="line">  <span class="keyword">var</span> a;</div><div class="line">  <span class="keyword">if</span> (a === <span class="literal">undefined</span>) &#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"Undefined is safe here"</span>)</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<p>目的是为了解决 undefined 标识符的默认值被错误覆盖导致的异常，这样的话即使在对于位置不传入任何值，内部的 undefined 还是 undefined。</p>
+<p>IIFE <em>倒置代码运行顺</em>序的用法（广泛用于 UMD 项目，其实看完会发现函数表达式内部会有一次调用参数（这里是传入进去的函数）的过程，参数（函数）会在这里执行）：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</div><div class="line"><span class="built_in">console</span>.log(<span class="string">'one step'</span>);</div><div class="line">(<span class="function"><span class="keyword">function</span> <span class="title">IIFE</span>(<span class="params"> def </span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'two step'</span>);</div><div class="line">  def( <span class="built_in">window</span> );</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'three step'</span>);</div><div class="line">&#125;)(<span class="function"><span class="keyword">function</span> <span class="title">def</span>(<span class="params"> global </span>) </span>&#123;</div><div class="line">  </div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'four step'</span>);</div><div class="line">  <span class="keyword">var</span> a = <span class="number">3</span>;</div><div class="line">  <span class="built_in">console</span>.log( a ); <span class="comment">// 3</span></div><div class="line">  <span class="built_in">console</span>.log( global.a ); <span class="comment">// 2</span></div><div class="line">  <span class="built_in">console</span>.log(<span class="string">'five step'</span>);</div><div class="line"></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// one step</span></div><div class="line"><span class="comment">// two step</span></div><div class="line"><span class="comment">// four step</span></div><div class="line"><span class="comment">// 3</span></div><div class="line"><span class="comment">// 2</span></div><div class="line"><span class="comment">// five step</span></div><div class="line"><span class="comment">// three step</span></div></pre></td></tr></table></figure>
+<p>这里让我想到了一个问题，操作符的优先级。MDN 上有介绍。</p>
+<p>函数表达式 def 定义在片段的第二部分，然后当做参数（这个参数也叫做 def ）被传进 IIFE 函数定义的第一部分中。最后，参数 def （也就是传进去的函数）被调用，并将 window 传入当做 global 参数的值。</p>
+<p><strong>块作用域</strong></p>
+<p>函数作用域是 JS 中最普遍的作用域单元，但是其他类型也是存在的，而且实现维护起来可以更加优秀和简洁。</p>
+<p>主要使用 JavaScript 开发的会对块作用域很陌生（非常赞同，以前甚至没有听过）</p>
+<p>看个例子吧：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">for (var i=0; i&lt;10; i++) &#123;</div><div class="line">  console.log( i );</div><div class="line">&#125;</div><div class="line">//你居然和我说这个就是 块作用域？</div></pre></td></tr></table></figure>
+<p>通常我们在 for 循环头部定义变量 i，事实上，我们只想在 for 循环内部的上下文使用它（没错=。=），而忽略了 i 会被绑定在外部作用域（函数或者全局）的事实（意思就是 for 循环不会像函数那样生成作用域气泡）。</p>
+<p>再看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var foo = true;</div><div class="line"></div><div class="line">if (foo)&#123;</div><div class="line">  var bar = foo * 2;</div><div class="line">  bar = something( bar );</div><div class="line">  console.log( bar );</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>同意是 if 条件，同意不会生成作用域气泡，那么你在里面使用 var，bar 最终还是属于外部作用域。这段代码只是为了可读性而可以伪装出的形式上的块作用域，如果用了，要确保没在其他地方使用 bar 只能靠自觉，这是不可取的。</p>
+<p><strong>with</strong></p>
+<p>with 其实就是一个块左右的例子，因为他会单独生成一个作用域气泡，而且用 with 对象创建出的作用域仅在 with 声明中而非外部作用域中有效。</p>
+<p><strong>try/catch</strong></p>
+<p>很少人知道 JavaScript 的 ES3 规范中规定 try/catch 的 catch 分局会创建一个块作用域。（我认为本书作者牛的地方就在这里，真的带你去了解任督二脉）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">try &#123;</div><div class="line">  undefined(); //执行一个非法操作来强制制造一个错误 err 用 undefined();</div><div class="line">&#125;</div><div class="line">catch( err ) &#123;</div><div class="line">  console.log( err ); </div><div class="line">  // TypeError: undefined is not a function</div><div class="line">&#125;</div><div class="line"></div><div class="line">console.log( err ); </div><div class="line">// ReferenceError: err is not defined</div></pre></td></tr></table></figure>
+<p>我们可以看到 err 仅在 catch 内部可以被访问，而在外部无法获得</p>
+<blockquote>
+<p>undefined(); 来强制生成错误<br>catch( err ){…}; 来捕获错误信息<br>这个行为已经被标准化，除了IE其他浏览器大部分都已实现。但是当用一个作用域中的两个或者多个 catch 分句用同样的标识符名称声明错误变时，很多静态检查工具会发出警告。<br>实际上我们知道因为 catch 实际上是块作用域，所以并不是重复定义变量，因为所以得变量都被安全的限制在 catch 块作用域内部。<br>所以有人会命名 err1，err2 等等，有人则直接关闭静态检查工具对重复变量名的检查。<br>这个其实很有用，因为能够帮助人们将 ES6 的一些新特性编译成能够兼容 ES5 的代码。</p>
+</blockquote>
+<p><strong>let</strong></p>
+<p>作业就是将变量绑定在 {…} 内部，同意 if 和 for 这些不会生成作用域气泡的条件语句也能够拥有自己私有的变量了。（想想还真是记得(≧▽≦)/！）</p>
+<p>同样道理，直接将 let 写在 {…} 内部会隐式的将变量附加在一个块作用域上，如果没有密切关注，仍旧习惯性的移动就会导致代码混乱。解决办法就是认为添加一个显式的块：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">if foo &#123;</div><div class="line">  &#123; // &lt;-- 显式的块</div><div class="line">    let bar = foo * 2;</div><div class="line">    bar = something( bar );</div><div class="line">    console.log( bar );</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">console.log( bar ); // ReferenceError</div></pre></td></tr></table></figure>
+<p><strong>垃圾回收</strong></p>
+<p>块作用域非常有用，这牵扯到闭包的垃圾回收机制相关。</p>
+<p>这里留一个疑问？为什么闭包会导致垃圾无法及时回收呢？使用块作用域，能清楚的告知 JS 引擎，那些变量是使用一次后不再被使用的。</p>
+<p><strong>let 循环</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">for (let i=0; i&lt;10; i++) &#123;</div><div class="line">  console.log( i ); // 1 2 3 4 5 6 7 8 9</div><div class="line">&#125;</div><div class="line"></div><div class="line">console.log( i ); // ReferenceError</div></pre></td></tr></table></figure>
+<p>let 在 for 循环中的使用，实际上是将 i 绑定到了 for 循环的块中，而且是绑定到具体每一次循环迭代，确保使用上一个循环迭代结束时的值重新进行赋值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line"> let j;</div><div class="line"> for (let j=0; j&lt;10; j++) &#123;</div><div class="line">   let i = j;</div><div class="line">   console.log( i ); // 0 1 2 3 4 5 6 7 8 9</div><div class="line"> &#125;</div><div class="line">&#125;;</div><div class="line">console.log( j ); // RefeerenceError</div></pre></td></tr></table></figure>
+<p><strong>const</strong></p>
+<p>const 同样用来可以创建作用域变量，但是其值为固定的（常量–&gt;如果是对象，那么固定的是其引用地址）。之后任何修改都会引起错误</p>
+<hr>
+<p><strong>总结</strong>：函数是 JavaScript 中最常用的作用域单元，默认声明在一个函数内部的变量会被隐藏，这是刻意为之的软件设计原则。<br>但是函数并不是唯一的作用域单元。块作用域是指的变量和函数不仅可以属于所处的作用域，也可以属于某个代码块（通常指{…}内部,想想命名空间啊骚年）。<br>从 ES3 开始，try/catch 结构在 catch 分局中具有块作用域。<br>ES6 引入了 let 关键字（var 的亲戚），用来在任意代码块中声明变量。<br>块作用域的出现不仅仅是函数作用域的替代方案，能为我所用就好。（工具也是，不要纠结sublime还是atom还是vscode，虽然我最青睐两边！🙃）</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/reading/" rel="tag"># reading</a>
+          
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+            <a href="/tags/JS-secrets/" rel="tag"># JS secrets</a>
+          
+            <a href="/tags/作用域/" rel="tag"># 作用域</a>
+          
+            <a href="/tags/闭包/" rel="tag"># 闭包</a>
+          
+            <a href="/tags/块作用域/" rel="tag"># 块作用域</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/03/14/You-Don't-Know-JavaScript/" rel="next" title="You Don't Know JavaScript(Chapter 1.1)">
+                <i class="fa fa-chevron-left"></i> You Don't Know JavaScript(Chapter 1.1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/03/16/You-Don't-Know-Javascript2/"
+     data-title="You don't know JavaScript(Chapter 1.2-1.3)"
+     data-content=""
+     data-url="http://www.yevvb.com/2017/03/16/You-Don't-Know-Javascript2/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/03/16/You-Don't-Know-Javascript2/"
+           data-title="You don't know JavaScript(Chapter 1.2-1.3)" data-url="http://www.yevvb.com/2017/03/16/You-Don't-Know-Javascript2/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="叶文斌" />
+          <p class="site-author-name" itemprop="name">叶文斌</p>
+          <p class="site-description motion-element" itemprop="description">Yevvb's life!</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#词法作用域"><span class="nav-number">1.</span> <span class="nav-text">词法作用域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数作用域和块作用域"><span class="nav-number">2.</span> <span class="nav-text">函数作用域和块作用域</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叶文斌</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yevvb"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("4zDIbrb4QcncU8dM1Nzyjd5E-gzGzoHsz", "gR0HaJQARcuD6jzCdvf6MSVa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
