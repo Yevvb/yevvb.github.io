@@ -108,7 +108,7 @@
 <meta property="og:url" content="http://www.yevvb.com/2017/03/12/You-Don't-Know-JavaScript/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="JS 被广泛使用，它是支撑起网页内容交互体验的技术基础。JavaScript 极易上手，但是真正掌握的人却比较少。日常所用的仅仅是它的冰山一角。《你不知道的 JavaScript》（后文略写《本书》）所做的事情就是深入理解 JavaScript，尤其是难的那一部分。">
-<meta property="og:updated_time" content="2017-03-15T10:33:02.798Z">
+<meta property="og:updated_time" content="2017-03-15T10:41:42.932Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="You Don't Know JavaScript(Chapter 1.1)">
 <meta name="twitter:description" content="JS 被广泛使用，它是支撑起网页内容交互体验的技术基础。JavaScript 极易上手，但是真正掌握的人却比较少。日常所用的仅仅是它的冰山一角。《你不知道的 JavaScript》（后文略写《本书》）所做的事情就是深入理解 JavaScript，尤其是难的那一部分。">
@@ -423,7 +423,8 @@
         <p>JS 被广泛使用，它是支撑起网页内容交互体验的技术基础。JavaScript 极易上手，但是真正掌握的人却比较少。日常所用的仅仅是它的冰山一角。《你不知道的 JavaScript》（后文略写《本书》）所做的事情就是深入理解 JavaScript，尤其是难的那一部分。<a id="more"></a>每次遇到 JavaScript 中出乎意料的部分时，能做到不去责怪语言，而是从中探究排除多样性，去理解 JavaScript 中“好的地方”，学会欣赏一门语言。</p>
 <h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><ol>
 <li><p><strong>编译原理</strong></p>
-<p>“动态”，“解释执行”每个人都知道，但《本书》认为其实为一门编译语言（它不是提前编译的，编译结果也不能在分布式系统中进行移植）。<br>一般的编译器，其一段源代码执行前经历以下三步：</p>
+<p>“动态”，“解释执行”每个人都知道，但《本书》认为其实为一门编译语言（它不是提前编译的，编译结果也不能在分布式系统中进行移植）。</p>
+<p>一般的编译器，其一段源代码执行前经历以下三步：</p>
 <ul>
 <li>分词/词法分析（Tokenizing/Lexing）</li>
 <li>解析/语法分析（Parsing Abstract Syntax Tree，“抽象语法树”）</li>
@@ -451,7 +452,7 @@
 <p>引擎与作用域的职责</p>
 </li>
 <li><p><strong>作用域嵌套</strong></p>
-<p>作用域嵌套形成了作用域链，一旦在当前作用域无法查找到目标，就会向外传递（就想事件冒泡），直到最外层全局环境。</p>
+<p>作用域嵌套形成了作用域链，一旦在当前作用域无法查找到目标，就会向外传递（事件冒泡），直到最外层全局环境。</p>
 </li>
 <li><p><strong>异常</strong></p>
 <p>为何区分 LHS 和 RHS 至关重要，因为在变量未声明的情况下，这两中查询行为是不一样的。</p>
