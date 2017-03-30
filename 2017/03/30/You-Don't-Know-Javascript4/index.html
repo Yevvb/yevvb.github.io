@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Javascript,Backbone,Framework,类库," />
+  <meta name="keywords" content="reading,Javascript,ArrowFunction,this,JS secrets,bind,call,apply," />
 
 
 
@@ -102,16 +102,16 @@
 
 
 
-<meta name="description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
+<meta name="description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被自动定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MVC Backbone">
-<meta property="og:url" content="http://www.yevvb.com/2017/03/11/MVC-Backbone/index.html">
+<meta property="og:title" content="You don't know JavaScript(Chapter 2)">
+<meta property="og:url" content="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/index.html">
 <meta property="og:site_name" content="Yevvb">
-<meta property="og:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
-<meta property="og:updated_time" content="2017-03-15T10:26:43.560Z">
+<meta property="og:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被自动定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
+<meta property="og:updated_time" content="2017-03-30T20:58:23.302Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MVC Backbone">
-<meta name="twitter:description" content="最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此">
+<meta name="twitter:title" content="You don't know JavaScript(Chapter 2)">
+<meta name="twitter:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被自动定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
 
 
 
@@ -139,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://www.yevvb.com/2017/03/11/MVC-Backbone/"/>
+  <link rel="canonical" href="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/"/>
 
 
 
 
 
-  <title> MVC Backbone | Yevvb </title>
+  <title> You don't know JavaScript(Chapter 2) | Yevvb </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -291,7 +291,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/03/11/MVC-Backbone/">
+  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="叶文斌">
@@ -315,7 +315,7 @@
             
             
               
-                MVC Backbone
+                You don't know JavaScript(Chapter 2)
               
             
           </h1>
@@ -330,8 +330,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-11T22:05:13+08:00">
-                2017-03-11
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-03-30T23:01:22+08:00">
+                2017-03-30
               </time>
             
 
@@ -353,8 +353,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Framework/" itemprop="url" rel="index">
-                    <span itemprop="name">Framework</span>
+                  <a href="/categories/Books/" itemprop="url" rel="index">
+                    <span itemprop="name">Books</span>
                   </a>
                 </span>
 
@@ -364,7 +364,7 @@
                 
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Framework/Javascript/" itemprop="url" rel="index">
+                  <a href="/categories/Books/Javascript/" itemprop="url" rel="index">
                     <span itemprop="name">Javascript</span>
                   </a>
                 </span>
@@ -382,8 +382,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/11/MVC-Backbone/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/11/MVC-Backbone/" itemprop="commentCount"></span>
+                <a href="/2017/03/30/You-Don't-Know-Javascript4/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/30/You-Don't-Know-Javascript4/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -393,7 +393,7 @@
 
           
           
-             <span id="/2017/03/11/MVC-Backbone/" class="leancloud_visitors" data-flag-title="MVC Backbone">
+             <span id="/2017/03/30/You-Don't-Know-Javascript4/" class="leancloud_visitors" data-flag-title="You don't know JavaScript(Chapter 2)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -420,50 +420,73 @@
       
 
       
-        <p>最近阅读了《基于MVC的JavaScript web富应用开发》（后文简称《MVC》），文章第十二章介绍了 Backbone.js，再次激发了我对此框架的兴趣。在看这本书之前了解过 vue，也被其所吸引，而正如作者分享的经验， MVC 是 MV* 发展的前身。也因此让自己想要更加深入地去了解，MVC 到底是什么？借此<a id="more"></a>从 Backbone 入手来学习这类库（框架）的设计思想。</p>
-<h3 id="Backbone-的特点"><a href="#Backbone-的特点" class="headerlink" title="Backbone 的特点"></a>Backbone 的特点</h3><blockquote>
-<p>Backbone 是构建 JavaScript 应用程序的一个优秀类库，他的优美之处在于其简洁。<br>这是一个轻量类库，覆盖了基础的功能，同时提供了最大的灵活性。（大小请参阅官方文件）<br>MVC 是贯穿 Backbone 核心的模式。提供了模型、控制器和视图——骨架。<br>Backbone 唯一以来 underscore.js，其提供非常有用的工具和 js 函数。<br>除了 underscore，还可以使用 jQuery zepto 来提升 Backbone 处理视图的能力</p>
+        <p>this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被自动定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。<a id="more"></a> Arthur C.Clarke 说，<em>任何足够先进的技术都和魔法无异</em>。那么 this 有那么先进吗？</p>
+<h3 id="why-this"><a href="#why-this" class="headerlink" title="why this"></a>why this</h3><blockquote>
+<p>this 隐式传递了一个对象的引用，显得更加优雅！同理，API 的设计会更加简洁且易于复用。<br>同时，随着使用模式变得复杂，显示传递上下文会更加混乱，this 就是一种解决方案。</p>
 </blockquote>
-<p>引用来自《MVC》-chapter 12</p>
-<h3 id="知乎上关于-Backbone-的回答"><a href="#知乎上关于-Backbone-的回答" class="headerlink" title="知乎上关于 Backbone 的回答"></a>知乎上关于 Backbone 的回答</h3><p>Backbone 最适合的应用场景是单页面应用，并且页面上有大量数据模型，模型之间需要进行复杂的信息沟通。Backbone 在这种场景下，能很好的实现模块间松耦合和事件驱动。 其他适用产品还有微博，网易微博的前端设计也是和 Backbone 类似的一个结构。</p>
-<p>Backbone 的优点和一些经验 Tip：</p>
-<ul>
-<li>View 的划分将页面上的视图元素解耦，粒度细化。View 间通过事件和 Model 通讯，避免了 DOM 事件的滥用。<br>Model 和 Restful 的通讯方式对于后端人员非常友好。</li>
-<li>MVC 架构清晰， 我有个常年写 Java 没写过 JS 的同事看 Backbone 很快就了解了整体设计，虽然这时候他还是不会写 JS。</li>
-<li>Collection/Model 抽象了以前杂乱的 AJAX 请求，CRUD 请求变得非常非常方便。</li>
-<li>强烈建议 View -&gt; Model 单向依赖，世界会美好很多。</li>
-<li>配上一个模块化加载器例如 SeaJS 会很爽。</li>
+<h3 id="对-this-的两大误解"><a href="#对-this-的两大误解" class="headerlink" title="对 this 的两大误解"></a>对 this 的两大误解</h3><ul>
+<li>this 指向自身。</li>
+<li>this 指向函数的作用域。（不完全错误）<br>  作用域类似对象，但是无法通过代码来访问。所以 this 显然不指向作用域。</li>
 </ul>
-<p>Backbone 的一些缺点，或者说一些尚未实现的 Feature：</p>
-<ul>
-<li>Model 层比较简单，如果要支持 One-To-One 或者 One-To-Many 等复杂数据关系时有些力不从心。还有 一个 Model 只能属于一个 Collection 这个设计，页面复杂的时候会很受局限。例如这个问题： <a href="http://www.zhihu.com/question/19843899" target="_blank" rel="external">http://www.zhihu.com/question/19843899</a> （补充：Backbone.Relations 插件是这个问题的一个解决方案 <a href="https://github.com/PaulUithol/Backbone-relational" target="_blank" rel="external">https://github.com/PaulUithol/Backbone-relational</a> By zjhiphop）</li>
-<li>同上，Model 只有基本的 CRUD 操作，不能很好的扩展，Backbone.sync 方法写的不太灵活，要想扩展就得重写 sync 方法。</li>
-<li>View 层没有很强的 Page 管理机制，比如通过 URL 切换改变整个页面时，页面上尚存的 View 如何处理？直接销毁的话，是否要销毁关联的 Model、Collection？Cache 住？如何管理 Cache？</li>
-<li>内存管理需要比较小心，缺乏机制避免创建重复 Model。</li>
-<li>extends override 父类方法的时候得写一串的代码，就不能实现个 _super 方法么……（SuperClass.prototype.someMethod.apply）</li>
-<li>对调试非常不友好。</li>
-<li>作者有代码洁癖（也是加分项），this.$el 大家呼唤了这么久才加上，估计今生也看不到 this._super。<br>更新慢。</li>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="string">"global"</span>;</div><div class="line"></div><div class="line">baz(); <span class="comment">// &lt;- global</span></div></pre></td></tr></table></figure>
+<h3 id="what’s-this"><a href="#what’s-this" class="headerlink" title="what’s this"></a>what’s this</h3><p>this 是在运行时进行绑定，他的上下文取决于函数调用时的各种条件。this 和函数编写时的文职并没有任何关系，只取决于函数的调用位置及方式。</p>
+<p>当一个函数调用时，会创建一个活动记录（执行上下文），这个记录包含了函数在哪儿被调用（查找调用栈）、函数的调用方式、传入的参数等信息。  </p>
+<p>this 只是执行上下文的一个属性，指向该上下文。</p>
+<h3 id="调用位置"><a href="#调用位置" class="headerlink" title="调用位置"></a>调用位置</h3><p>寻找调用位置并非易事，某些编程模式可能会隐藏真正的位置。最重要的是分析调用栈（到达当前执行位置所调用的所有函数）。调用位置就是当前正在执行的函数的前一个调用中。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="string">"global"</span>;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// 当前调用栈 baz</span></div><div class="line">  <span class="comment">// 调用位置为全局作用域</span></div><div class="line">  </div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"baz"</span>);</div><div class="line">  bar(); <span class="comment">// &lt;-- bar 的调用位置</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bar</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// 当前调用栈为 baz -&gt; bar</span></div><div class="line">  <span class="comment">// 调用位置为 baz 中</span></div><div class="line">  </div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"bar"</span>);</div><div class="line">  foo(); <span class="comment">//</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// 当前调用栈为 baz -&gt; bar -&gt; foo</span></div><div class="line">  <span class="comment">// 调用位置为 bar 中</span></div><div class="line">  </div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"foo"</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">baz(); <span class="comment">// &lt;-- baz在全局被调用</span></div></pre></td></tr></table></figure>
+<h3 id="this-绑定四大规则"><a href="#this-绑定四大规则" class="headerlink" title="this 绑定四大规则"></a>this 绑定四大规则</h3><ul>
+<li><p>默认绑定<br>独立函数调用，无法应用其他规则是默认绑定</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 严格模式下，不能将全局对象用于默认绑定</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">  "use strict"</span>;</div><div class="line">  <span class="built_in">console</span>.log( <span class="keyword">this</span>.a );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</div><div class="line"></div><div class="line">foo(); <span class="comment">// TypeError: this is undefined</span></div></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>总体来说 Backbone 还很轻，框架很漂亮但是有些细节还比较粗糙。用之前要做好对 Backbone 进行大量扩展甚至 Hack 的准备。</p>
-<blockquote>
-<p>作者：pw<br>来源：<a href="https://www.zhihu.com/question/19720745/answer/14315565" target="_blank" rel="external">知乎 链接</a></p>
-</blockquote>
-<h3 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Backbone.Model</div></pre></td></tr></table></figure>
-<p>模型是保存应用程序数据的地方。可以想象为 APP 原始数据精心设计的抽象，并且添加了一些工具函数和事件。</p>
-<h3 id="模型和属性"><a href="#模型和属性" class="headerlink" title="模型和属性"></a>模型和属性</h3><p>使用 set() 和 get() 来设置和获取<strong>实例</strong>中的属性。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> user = <span class="keyword">new</span> User();</div><div class="line">user.set(&#123;<span class="attr">name</span>: <span class="string">"yevvb"</span>&#125;);<span class="comment">//hash 形式的表示对象</span></div></pre></td></tr></table></figure></p>
-<h3 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h3><p>集合就是对模型实例的数据进行管理。<br>文章中举了重建 twitter 关注和粉丝的例子，FOLLOWERS 和 FOLLOWEES，两者都是由 User 实例来填充数据，虽然来自于同一个 Model，但是包含了不同的 Model 实例（User 实例）。</p>
-<h3 id="控制集合内部顺序"><a href="#控制集合内部顺序" class="headerlink" title="控制集合内部顺序"></a>控制集合内部顺序</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> Users = Backbone.Collection.extend(&#123;</div><div class="line">  <span class="comment">// 通过 comparator（） 函数来实现</span></div><div class="line">  comparator: <span class="function"><span class="keyword">function</span>(<span class="params">user</span>)</span>&#123;</div><div class="line">    <span class="keyword">return</span> user.get(<span class="string">"name"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h3><p>Backbone 视图并不是模板本身，而是一些控制类。代表了一个 UI 逻辑块，负责一个简单的 DOM 的内容。<br>比如说：控制元素的显隐，按钮的不同状态等等…</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var UserView = Backbone.View.extend(&#123;</div><div class="line">  el: $(&quot;.users&quot;)</div><div class="line">&#125;);</div><div class="line"></div><div class="line">new UserView(&#123;id: &quot;followers&quot;&#125;);</div></pre></td></tr></table></figure>
-<h3 id="渲染视图"><a href="#渲染视图" class="headerlink" title="渲染视图"></a>渲染视图</h3><p>每个视图都有一个 render() 函数，默认情况不做任何操作。一旦视图修改就需要 repaints，就应该调用此函数。<br>模板可以依赖于其他工具 underscore 等等都可以。</p>
-<p>即使是未插入到页面中去的 model 实例，其仍旧拥有自己的 el 元素，视图可在任何时候渲染，然后一次性插入到 DOM 中去，这样能尽量减少 reflows 和 repaints 从而获得高性能的 UI 渲染。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var TodoView = Backbone.View.extend(&#123;</div><div class="line">  template: _.template($(&quot;#todo-template&quot;).html()),</div><div class="line">  render: function() &#123;</div><div class="line">  $(this.el).html(this.template(this.model.toJSON()));</div><div class="line">    // 返回以便于链式调用，非常重要</div><div class="line">    return this;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="委托事件"><a href="#委托事件" class="headerlink" title="委托事件"></a>委托事件</h3><p>事件必不可少，他是用户行为–交互的基础。 Backbone 视图提供了一种添加事件到 el 的快捷方法。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var TodoView = Backbone.View.extend(&#123;</div><div class="line">  events: &#123;</div><div class="line">    &quot;change input[type=checkbox]&quot; : &quot;toggleDone&quot;,</div><div class="line">    &quot;click .destroy&quot; : &quot;clear&quot;,</div><div class="line">  &#125;,</div><div class="line">  toggleDone: function(e)&#123; /* ... */&#125;,</div><div class="line">  clear: function(e)&#123; /* ... */&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure></p>
-<h3 id="绑定和上下文"><a href="#绑定和上下文" class="headerlink" title="绑定和上下文"></a>绑定和上下文</h3><p>一旦视图发生改变，就会触发 change 事件，使得应用程序的视图和与之对应的模型数据是同步绑定的。而此时唯一需要注意的是 this 指示的上下文会发生变化。</p>
-<h3 id="控制器"><a href="#控制器" class="headerlink" title="控制器"></a>控制器</h3><p>Backbone 的控制器将应用程序的状态和 URL 的 hash 片段关联在一起，使 URL 地址可分享，也可作为书签使用。<br>本质上，控制器由一些路由和函数构成，当导航到这些路由时那些函数就会被调用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var PageController = Backbone.Controller.extend(&#123;</div><div class="line">  routes: &#123;</div><div class="line">    &quot;&quot;: &quot;index&quot;,</div><div class="line">    &quot;help&quot;: &quot;help&quot;, // #help</div><div class="line">    &quot;search/:query&quot;: &quot;search&quot;, // #search/kiwis</div><div class="line">    &quot;search/:query/p:page&quot;: &quot;search&quot; // #search/kiwis/p7</div><div class="line">  &#125;,</div><div class="line">  index: function()&#123; /* ... */ &#125;,</div><div class="line">  help: function() &#123;</div><div class="line">    // ...</div><div class="line">  &#125;,</div><div class="line">  search: function(query, page) &#123;</div><div class="line">    // ...</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<h3 id="与服务器同步的问题"><a href="#与服务器同步的问题" class="headerlink" title="与服务器同步的问题"></a>与服务器同步的问题</h3><h3 id="第一次如何从服务器获取模型数据（fetch）"><a href="#第一次如何从服务器获取模型数据（fetch）" class="headerlink" title="第一次如何从服务器获取模型数据（fetch）"></a>第一次如何从服务器获取模型数据（fetch）</h3><h3 id="服务器端如何存储"><a href="#服务器端如何存储" class="headerlink" title="服务器端如何存储"></a>服务器端如何存储</h3><h3 id="如何自定义行为"><a href="#如何自定义行为" class="headerlink" title="如何自定义行为"></a>如何自定义行为</h3><h3 id="todo-应用实践"><a href="#todo-应用实践" class="headerlink" title="todo 应用实践"></a><a href="https://github.com/Yevvb/todoByBackbone" target="_blank" rel="external">todo 应用实践</a></h3><hr>
-<p><strong>总结</strong>：backbone 为我们解耦了模型、视图和控制层，结构清晰简洁。</p>
+<p>  此处有一个微小的细节，当 foo 运行在非 strict mode 下时，在严格模式下调用 foo() 则不影响默认绑定：</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( <span class="keyword">this</span>.a );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</div><div class="line"></div><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line"><span class="meta">  "use strict"</span>;</div><div class="line">  foo(); <span class="comment">// 2</span></div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<ul>
+<li><p>隐式绑定  </p>
+<p>调用位置是否有上下文，或者说是否被某个对象拥有或者包含。<br>eg: obj.foo();  obj1.obj2.foo(); // &lt;– 第二个绑定到obj2<br>当函数引用有上下文对象时，隐式绑定规则会把函数调用中的 this 绑定到这个上下文对象。<br>对象属性引用链中只有上一层或者说最后一层在调用位置中起作用。<br>严格模式下可能会造成隐式丢失，this 可能为 undefined。<br>传入回调函数也会造成隐式绑定。<br>通过属性间接引用函数将 this 隐式绑定到当前对象上。</p>
+</li>
+<li><p>显式绑定  </p>
+<p>使用函数的 call(..) 和 apply(..) 方法。<br>显示绑定依然无法解决绑定丢失问题。<br>简单的辅助绑定函数：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 简单的辅助函数</span></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">bind</span>(<span class="params">fn, obj</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    <span class="keyword">return</span> fn.apply( obj, <span class="built_in">arguments</span> );</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>ES5 内置的方法 Function.prototype.bind:  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params">something</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( <span class="keyword">this</span>.a, something );</div><div class="line">  <span class="keyword">return</span> <span class="keyword">this</span>.a + something;</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> obj = &#123; <span class="attr">a</span>:<span class="number">2</span> &#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> bar = foo.bind( obj );</div><div class="line"></div><div class="line"><span class="keyword">var</span> b = bar( <span class="number">3</span> ); <span class="comment">// 2 3</span></div><div class="line"><span class="built_in">console</span>.log( b ); <span class="comment">// 5</span></div></pre></td></tr></table></figure>
+<p>bind(..) 会返回一个硬编码的新函数，他会把你指定的第一个参数设置为 this 的上下文并<em>调用原始函数</em>，其余的参数传递给下层的函数（部分应用，是‘柯里化’的一种）。<br>API 调用的<strong>上下文</strong>：第三方库以及 ES6 数组新的迭代方法，都支持传入一个可选的参数，通常称为上下文，其作用同 bind(..) 类似，这些函数实际上就是用过 call(..) 或者 apply(..) 实现了显式绑定。</p>
+</li>
+<li><p>硬绑定（new）  </p>
+<p>使用 new 操作符是，会创建一个新对象，并将函数调用中的 this 绑定到这个新对象上。具体操作如下：</p>
+<ol>
+<li>创建/构造 一个全新的对象</li>
+<li>这个新对象会被执行[[prototype]]连接</li>
+<li>这个新对象会被绑定到函数调用的 this</li>
+<li>如果函数没有返回其他对象，那么 new 表达式中的函数调用会自动返回这个新对象</li>
+</ol>
+</li>
+</ul>
+<h3 id="优先级"><a href="#优先级" class="headerlink" title="优先级"></a>优先级</h3><ul>
+<li>是否在 new 中调用？（new 绑定）</li>
+<li>是否通过 call、apply、bind 等调用？（显式绑定）</li>
+<li>是否在某个上下文中调用？（隐式绑定）</li>
+<li>都不是？（默认绑定）</li>
+</ul>
+<h3 id="凡事无绝对！"><a href="#凡事无绝对！" class="headerlink" title="凡事无绝对！"></a>凡事无绝对！</h3><p><strong>被忽略的 this</strong></p>
+<p>将 null 或者 undefined 作为 this 的绑定对象传入 call、apply、bind 显式绑定规则时，这些值在调用时会被忽略，使用默认绑定规则。</p>
+<p><strong>更安全的 this</strong></p>
+<p>创建一个“DMZ”(demilitarized zone，非军事区)空的委托对象 ø 。</p>
+<p>object.create(null) 比 {} 还空。（没有 Object.prototype 委托）</p>
+<p>将 this 绑定到这个空对象，防止任何副作用保护全局对象。</p>
+<p><strong>间接引用</strong></p>
+<p>当有意无意的创建了一个函数的间接引用时，该函数会应用默认绑定。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( <span class="keyword">this</span>.a );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</div><div class="line"><span class="keyword">var</span> o = &#123; <span class="attr">a</span>: <span class="number">3</span>, <span class="attr">foo</span>: foo &#125;;</div><div class="line"><span class="keyword">var</span> p = &#123; <span class="attr">a</span>: <span class="number">4</span> &#125;;</div><div class="line"></div><div class="line">o.foo(); <span class="comment">// 3</span></div><div class="line">(p.foo = o.foo)(); <span class="comment">// 2</span></div></pre></td></tr></table></figure>
+<p><strong>this 词法</strong></p>
+<p>ES6 定义了一种新的函数 箭头函数。这种函数不适用上述4种规则，而是根据外部作用域来决定 this，其本身不没有 this。</p>
+<p>其原理同于 self = this 机制</p>
+<p>更多关于箭头函数请看nodejs论坛的一片帖子——<a href="https://cnodejs.org/topic/584a207a3ebad99b336b1ede" target="_blank" rel="external">少年，不要滥用箭头函数啊</a></p>
+<p><strong>实现软绑定</strong></p>
+<p>可以默认绑定一个除全局对象和 undefined 意外的值，实现和硬绑定相同的效果，同时保留隐式绑定或者显示绑定修改 this 的能力：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!<span class="built_in">Function</span>.prototype.softBind) &#123;</div><div class="line">  <span class="built_in">Function</span>.prototype.softBind = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">    <span class="comment">// 这里的 this 是 Function.prototype 对象？</span></div><div class="line">    <span class="keyword">var</span> fn = <span class="keyword">this</span>;</div><div class="line">    <span class="comment">// 捕获 curried 参数，即除指定对象之外的参数</span></div><div class="line">    <span class="keyword">var</span> curried = [].slice.call( <span class="built_in">arguments</span>, <span class="number">1</span> );</div><div class="line">    <span class="keyword">var</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> fn.apply(</div><div class="line">        <span class="comment">// 如果 this 绑定到全局对象或者 undefined，那么就把 指定的 obj 对象绑定到 this，否则就不修改 this</span></div><div class="line">        (!<span class="keyword">this</span> || <span class="keyword">this</span> === (<span class="built_in">window</span> || global)) ? obj : <span class="keyword">this</span>, curried.concat.apply( curried, <span class="built_in">arguments</span> )</div><div class="line">      );</div><div class="line">    &#125;;</div><div class="line">    bound.prototype = <span class="built_in">Object</span>.create( fn.prototype );</div><div class="line">    <span class="comment">// 注意这里返回的是 bound 执行后的返回值</span></div><div class="line">    <span class="keyword">return</span> bound();</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>请问上面的 this 会指向谁呢？思考运行时函数调用的位置以及对象！</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>四大绑定规则，ES6 箭头函数！空对象 DMZ ø 创建！</p>
+<p>this –&gt; 函数调用位置判断 –&gt; 调用栈</p>
 
       
     </div>
@@ -487,13 +510,21 @@
       
         <div class="post-tags">
           
+            <a href="/tags/reading/" rel="tag"># reading</a>
+          
             <a href="/tags/Javascript/" rel="tag"># Javascript</a>
           
-            <a href="/tags/Backbone/" rel="tag"># Backbone</a>
+            <a href="/tags/ArrowFunction/" rel="tag"># ArrowFunction</a>
           
-            <a href="/tags/Framework/" rel="tag"># Framework</a>
+            <a href="/tags/this/" rel="tag"># this</a>
           
-            <a href="/tags/类库/" rel="tag"># 类库</a>
+            <a href="/tags/JS-secrets/" rel="tag"># JS secrets</a>
+          
+            <a href="/tags/bind/" rel="tag"># bind</a>
+          
+            <a href="/tags/call/" rel="tag"># call</a>
+          
+            <a href="/tags/apply/" rel="tag"># apply</a>
           
         </div>
       
@@ -502,8 +533,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/01/01/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2017/03/20/Node模块/" rel="next" title="Node 模块">
+                <i class="fa fa-chevron-left"></i> Node 模块
               </a>
             
           </div>
@@ -511,10 +542,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/03/14/You-Don't-Know-JavaScript/" rel="prev" title="You Don't Know JavaScript(Chapter 1.1)">
-                You Don't Know JavaScript(Chapter 1.1) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -529,10 +556,10 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/03/11/MVC-Backbone/"
-     data-title="MVC Backbone"
+        <div class="ds-share flat" data-thread-key="2017/03/30/You-Don't-Know-Javascript4/"
+     data-title="You don't know JavaScript(Chapter 2)"
      data-content=""
-     data-url="http://www.yevvb.com/2017/03/11/MVC-Backbone/">
+     data-url="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/">
   <div class="ds-share-inline">
     <ul  class="ds-share-icons-16">
 
@@ -562,8 +589,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/11/MVC-Backbone/"
-           data-title="MVC Backbone" data-url="http://www.yevvb.com/2017/03/11/MVC-Backbone/">
+      <div class="ds-thread" data-thread-key="2017/03/30/You-Don't-Know-Javascript4/"
+           data-title="You don't know JavaScript(Chapter 2)" data-url="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/">
       </div>
     
   </div>
@@ -683,7 +710,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Backbone-的特点"><span class="nav-number">1.</span> <span class="nav-text">Backbone 的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#知乎上关于-Backbone-的回答"><span class="nav-number">2.</span> <span class="nav-text">知乎上关于 Backbone 的回答</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型"><span class="nav-number">3.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#模型和属性"><span class="nav-number">4.</span> <span class="nav-text">模型和属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#集合"><span class="nav-number">5.</span> <span class="nav-text">集合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制集合内部顺序"><span class="nav-number">6.</span> <span class="nav-text">控制集合内部顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#视图"><span class="nav-number">7.</span> <span class="nav-text">视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#渲染视图"><span class="nav-number">8.</span> <span class="nav-text">渲染视图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#委托事件"><span class="nav-number">9.</span> <span class="nav-text">委托事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#绑定和上下文"><span class="nav-number">10.</span> <span class="nav-text">绑定和上下文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#控制器"><span class="nav-number">11.</span> <span class="nav-text">控制器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与服务器同步的问题"><span class="nav-number">12.</span> <span class="nav-text">与服务器同步的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#第一次如何从服务器获取模型数据（fetch）"><span class="nav-number">13.</span> <span class="nav-text">第一次如何从服务器获取模型数据（fetch）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#服务器端如何存储"><span class="nav-number">14.</span> <span class="nav-text">服务器端如何存储</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何自定义行为"><span class="nav-number">15.</span> <span class="nav-text">如何自定义行为</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#todo-应用实践"><span class="nav-number">16.</span> <span class="nav-text">todo 应用实践</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#why-this"><span class="nav-number">1.</span> <span class="nav-text">why this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对-this-的两大误解"><span class="nav-number">2.</span> <span class="nav-text">对 this 的两大误解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#what’s-this"><span class="nav-number">3.</span> <span class="nav-text">what’s this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调用位置"><span class="nav-number">4.</span> <span class="nav-text">调用位置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this-绑定四大规则"><span class="nav-number">5.</span> <span class="nav-text">this 绑定四大规则</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优先级"><span class="nav-number">6.</span> <span class="nav-text">优先级</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#凡事无绝对！"><span class="nav-number">7.</span> <span class="nav-text">凡事无绝对！</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>
