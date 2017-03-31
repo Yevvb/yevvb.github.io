@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="reading,Javascript,ArrowFunction,this,JS secrets,bind,call,apply," />
+  <meta name="keywords" content="Javascript,reading,JS secrets,ArrowFunction,this,bind,call,apply," />
 
 
 
@@ -102,16 +102,16 @@
 
 
 
-<meta name="description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被自动定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
+<meta name="description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="You don't know JavaScript(Chapter 2)">
 <meta property="og:url" content="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/index.html">
 <meta property="og:site_name" content="Yevvb">
-<meta property="og:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被自动定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
-<meta property="og:updated_time" content="2017-03-30T20:58:23.302Z">
+<meta property="og:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
+<meta property="og:updated_time" content="2017-03-31T00:34:29.776Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="You don't know JavaScript(Chapter 2)">
-<meta name="twitter:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被自动定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
+<meta name="twitter:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
 
 
 
@@ -420,7 +420,7 @@
       
 
       
-        <p>this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被自动定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。<a id="more"></a> Arthur C.Clarke 说，<em>任何足够先进的技术都和魔法无异</em>。那么 this 有那么先进吗？</p>
+        <p>this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。<a id="more"></a> Arthur C.Clarke 说，<em>任何足够先进的技术都和魔法无异</em>。那么 this 有那么先进吗？ this 到底是什么呢？</p>
 <h3 id="why-this"><a href="#why-this" class="headerlink" title="why this"></a>why this</h3><blockquote>
 <p>this 隐式传递了一个对象的引用，显得更加优雅！同理，API 的设计会更加简洁且易于复用。<br>同时，随着使用模式变得复杂，显示传递上下文会更加混乱，this 就是一种解决方案。</p>
 </blockquote>
@@ -429,7 +429,7 @@
 <li>this 指向函数的作用域。（不完全错误）<br>  作用域类似对象，但是无法通过代码来访问。所以 this 显然不指向作用域。</li>
 </ul>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">baz</span> (<span class="params"></span>)</span>&#123;</div><div class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.a);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="string">"global"</span>;</div><div class="line"></div><div class="line">baz(); <span class="comment">// &lt;- global</span></div></pre></td></tr></table></figure>
-<h3 id="what’s-this"><a href="#what’s-this" class="headerlink" title="what’s this"></a>what’s this</h3><p>this 是在运行时进行绑定，他的上下文取决于函数调用时的各种条件。this 和函数编写时的文职并没有任何关系，只取决于函数的调用位置及方式。</p>
+<h3 id="what’s-this"><a href="#what’s-this" class="headerlink" title="what’s this"></a>what’s this</h3><p>this 是在运行时进行绑定，他的上下文取决于函数调用时的各种条件。this 和函数编写时的位置并没有任何关系，只取决于函数的调用位置及方式。</p>
 <p>当一个函数调用时，会创建一个活动记录（执行上下文），这个记录包含了函数在哪儿被调用（查找调用栈）、函数的调用方式、传入的参数等信息。  </p>
 <p>this 只是执行上下文的一个属性，指向该上下文。</p>
 <h3 id="调用位置"><a href="#调用位置" class="headerlink" title="调用位置"></a>调用位置</h3><p>寻找调用位置并非易事，某些编程模式可能会隐藏真正的位置。最重要的是分析调用栈（到达当前执行位置所调用的所有函数）。调用位置就是当前正在执行的函数的前一个调用中。</p>
@@ -510,15 +510,15 @@
       
         <div class="post-tags">
           
+            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
             <a href="/tags/reading/" rel="tag"># reading</a>
           
-            <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+            <a href="/tags/JS-secrets/" rel="tag"># JS secrets</a>
           
             <a href="/tags/ArrowFunction/" rel="tag"># ArrowFunction</a>
           
             <a href="/tags/this/" rel="tag"># this</a>
-          
-            <a href="/tags/JS-secrets/" rel="tag"># JS secrets</a>
           
             <a href="/tags/bind/" rel="tag"># bind</a>
           
