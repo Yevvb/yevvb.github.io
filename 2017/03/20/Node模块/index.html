@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="node,Javascript,Node模块,模块,moudle,express," />
+  <meta name="keywords" content="Javascript,模块,moudle,node,Node模块,express," />
 
 
 
@@ -102,16 +102,16 @@
 
 
 
-<meta name="description" content="2009 年提出的 node，使得 JavaScript 开始跳出浏览器，能够开始运行在服务器端。除了最简单的 web 程序，所有的程序都需要数据库，而 node 生态中的数据库更多。">
+<meta name="description" content="2009年，美国程序员Ryan Dahl创造了node.js项目，将javascript语言用于服务器端编程。这标志”Javascript模块化编程”正式诞生。因为老实说，在浏览器环境下，没有模块也不是特别大的问题，毕竟网页程序的复杂性有限；但是在服务器端，一定要有模块，与操作系统和其他应用程序互动，否则根本没法编程。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node 模块">
 <meta property="og:url" content="http://www.yevvb.com/2017/03/20/Node模块/index.html">
 <meta property="og:site_name" content="Yevvb">
-<meta property="og:description" content="2009 年提出的 node，使得 JavaScript 开始跳出浏览器，能够开始运行在服务器端。除了最简单的 web 程序，所有的程序都需要数据库，而 node 生态中的数据库更多。">
-<meta property="og:updated_time" content="2017-04-03T19:25:47.257Z">
+<meta property="og:description" content="2009年，美国程序员Ryan Dahl创造了node.js项目，将javascript语言用于服务器端编程。这标志”Javascript模块化编程”正式诞生。因为老实说，在浏览器环境下，没有模块也不是特别大的问题，毕竟网页程序的复杂性有限；但是在服务器端，一定要有模块，与操作系统和其他应用程序互动，否则根本没法编程。">
+<meta property="og:updated_time" content="2017-04-03T19:35:13.714Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Node 模块">
-<meta name="twitter:description" content="2009 年提出的 node，使得 JavaScript 开始跳出浏览器，能够开始运行在服务器端。除了最简单的 web 程序，所有的程序都需要数据库，而 node 生态中的数据库更多。">
+<meta name="twitter:description" content="2009年，美国程序员Ryan Dahl创造了node.js项目，将javascript语言用于服务器端编程。这标志”Javascript模块化编程”正式诞生。因为老实说，在浏览器环境下，没有模块也不是特别大的问题，毕竟网页程序的复杂性有限；但是在服务器端，一定要有模块，与操作系统和其他应用程序互动，否则根本没法编程。">
 
 
 
@@ -420,7 +420,8 @@
       
 
       
-        <p>2009 年提出的 node，使得 JavaScript 开始跳出浏览器，能够开始运行在服务器端。除了最简单的 web 程序，所有的程序都需要数据库，而 node 生态中的数据库更多。<a id="more"></a> 所有主流关系型数据库（MySQL、MariaDB、PostgreSQL、Oracle、SQL Server）的接口都有，而 node 开发的出现带动了一种新式的数据库存储方式。“NoSQL 数据库”————《Node与Express开发》</p>
+        <p>2009年，美国程序员Ryan Dahl创造了node.js项目，将javascript语言用于服务器端编程。这标志”Javascript模块化编程”正式诞生。因为老实说，在浏览器环境下，没有模块也不是特别大的问题，毕竟网页程序的复杂性有限；但是在服务器端，一定要有模块，与操作系统和其他应用程序互动，否则根本没法编程。<a id="more"></a> NodeJS是CommonJS规范的实现，webpack 也是以CommonJS的形式来书写。</p>
+<p>而我们都知道，除了最简单的 web 程序，所有的程序都需要数据库，而 node 生态中的数据库更多。所有主流关系型数据库（MySQL、MariaDB、PostgreSQL、Oracle、SQL Server）的接口都有，而 node 开发的出现带动了一种新式的数据库存储方式。“NoSQL 数据库”————《Node与Express开发》^1</p>
 <h3 id="Node-模块"><a href="#Node-模块" class="headerlink" title="Node 模块"></a>Node 模块</h3><p>我们已经知道了闭包和模块的关系，让我们回顾一下模块模式的两个必要条件：</p>
 <ul>
 <li>必须有外部的封闭函数，该函数至少被调用一次</li>
@@ -439,8 +440,9 @@
 <p>将 fortune.js 中的 exports 导出的方法放在 fortune 命名空间下。这里加载模块使用了相对路径，意思就是告诉 node 不要去 node_moudles 查找。然后你就可以用上面模块里的 getFortune 方法：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">app.get(<span class="string">'/about'</span>, <span class="function"><span class="keyword">function</span>(<span class="params">req, res</span>) </span>&#123;</div><div class="line">  res.render(<span class="string">'about'</span>, &#123; <span class="attr">fortune</span>: fortune.getFortune() &#125;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
 <h3 id="commonJS-amp-ES6-moudles"><a href="#commonJS-amp-ES6-moudles" class="headerlink" title="commonJS &amp; ES6 moudles"></a>commonJS &amp; ES6 moudles</h3><p><a href="http://es6.ruanyifeng.com/#docs/module-loader#ES6-模块与-CommonJS-模块的差异" target="_blank" rel="external"><strong>commonJS 规范 &amp; ES6 模块</strong></a>参考阮一峰老师的文章</p>
+<p><a href="https://geekjc.com/post/58cd5b206fa70c5678a628af" target="_blank" rel="external">CommonJS和AMD/CMD</a></p>
 <hr>
-<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>“NoSQL 数据库”：这个否定的叫法或许不恰当，“文档数据库”或“<strong>键/值对数据库</strong>”也许更加合适。它们提供了一种概念上更简单的数据存储方式。这种数据库有很多，<strong>MongoDB</strong> 就是其中的佼佼者。</p>
+<h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>^1:“NoSQL 数据库”：这个否定的叫法或许不恰当，“文档数据库”或“<strong>键/值对数据库</strong>”也许更加合适。它们提供了一种概念上更简单的数据存储方式。这种数据库有很多，<strong>MongoDB</strong> 就是其中的佼佼者。</p>
 
       
     </div>
@@ -464,15 +466,15 @@
       
         <div class="post-tags">
           
-            <a href="/tags/node/" rel="tag"># node</a>
-          
             <a href="/tags/Javascript/" rel="tag"># Javascript</a>
-          
-            <a href="/tags/Node模块/" rel="tag"># Node模块</a>
           
             <a href="/tags/模块/" rel="tag"># 模块</a>
           
             <a href="/tags/moudle/" rel="tag"># moudle</a>
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+            <a href="/tags/Node模块/" rel="tag"># Node模块</a>
           
             <a href="/tags/express/" rel="tag"># express</a>
           
