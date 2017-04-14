@@ -45,9 +45,9 @@
 
     
     <entry>
-      <title><![CDATA[Hello World]]></title>
+      <title><![CDATA[一沙一世界]]></title>
       <url>%2F2017%2F01%2F01%2Fhello-world%2F</url>
-      <content type="text"><![CDATA[Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub. Quick StartCreate a new post1$ hexo new "My New Post" More info: Writing Run server1$ hexo server More info: Server Generate static files1$ hexo generate More info: Generating Deploy to remote sites1$ hexo deploy More info: Deployment]]></content>
+      <content type="text"><![CDATA[hello，这里是叶文斌的博客。在没有弄懂背后的原理下，这个博客就依葫芦画瓢式的诞生了，在这庞大的互联网中好似一粒沙，于我却是一个世界。 首先，这里会是一个技术博客，仅以此来记录，还谈不上分享，为的是能常有回顾，因为怕那如鱼儿一般只有7秒钟的记忆。 再则，人生多感悟。有时很多想法写在纸上终究不如这样来的方便，所以这里也会记录一些杂事。 最后，这个博客是为自己而建（虽然是仿的他人）。]]></content>
     </entry>
 
     
