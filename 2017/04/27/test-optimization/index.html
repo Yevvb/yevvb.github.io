@@ -108,7 +108,7 @@
 <meta property="og:url" content="http://www.yevvb.com/2017/04/27/test-optimization/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="在读完《YDKJS ASYNC&amp;amp;PERFORMANCE》之后，不禁会产生这样的思考，我写的代码性能怎么样？该如何优化它呢？在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！">
-<meta property="og:updated_time" content="2017-04-28T00:36:00.491Z">
+<meta property="og:updated_time" content="2017-04-29T21:58:56.451Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="性能测试和优化">
 <meta name="twitter:description" content="在读完《YDKJS ASYNC&amp;amp;PERFORMANCE》之后，不禁会产生这样的思考，我写的代码性能怎么样？该如何优化它呢？在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！">
@@ -431,7 +431,7 @@
 <p>对此，可以将表现归纳为不正式！（不是不正式，是完全不知道:sad）</p>
 <p><strong>Benchmark.js</strong></p>
 <p>可靠的测试应该是基于统计学上的合理实践。</p>
-<p>Benchmark.js 就是一些聪明人编写的基于统计学上有效的性能测试工具。如何你要测试你的代码，用它就行了。（macha 也非常流行）</p>
+<p>Benchmark.js 就是一些聪明人编写的基于统计学上有效的性能测试工具。如何你要测试你的代码，用它就行了。（mocha 非常流行）</p>
 <p>用 Benchmark.js 来运行一个快速的性能测试：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="comment">// something test here</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> bench = <span class="keyword">new</span> Benchmark(</div><div class="line">  <span class="string">"foo test"</span>,<span class="comment">// 测试名称</span></div><div class="line">  foo,<span class="comment">// 测试的函数内容</span></div><div class="line">  &#123;</div><div class="line">    <span class="comment">// 可选的额外内容</span></div><div class="line">  &#125;</div><div class="line">)</div><div class="line"></div><div class="line">bench.hz;				<span class="comment">// 每秒运算数</span></div><div class="line">bench.stats.moe;		<span class="comment">// 出错边界</span></div><div class="line">bench.stats.variance;	<span class="comment">// 样本方差</span></div><div class="line"><span class="comment">// ...</span></div></pre></td></tr></table></figure>
 <p>这就是 benchmark.js 提供的 API。</p>
