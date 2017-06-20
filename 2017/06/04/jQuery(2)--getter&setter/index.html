@@ -1,0 +1,1087 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,framework,jquery," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery(2)--getter&setter">
+<meta property="og:url" content="http://www.yevvb.com/2017/06/04/jQuery(2)--getter&setter/index.html">
+<meta property="og:site_name" content="Yevvb">
+<meta property="og:description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
+<meta property="og:updated_time" content="2017-06-20T09:38:47.322Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery(2)--getter&setter">
+<meta name="twitter:description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6372124684347000000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.yevvb.com/2017/06/04/jQuery(2)--getter&setter/"/>
+
+
+
+
+
+  <title> jQuery(2)--getter&setter | Yevvb </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yevvb</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">让时间有迹可循</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/06/04/jQuery(2)--getter&setter/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="叶文斌">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/uploads/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Yevvb">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Yevvb" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jQuery(2)--getter&setter
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-04T19:41:22+08:00">
+                2017-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/04/jQuery(2)--getter&setter/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/04/jQuery(2)--getter&setter/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/06/04/jQuery(2)--getter&setter/" class="leancloud_visitors" data-flag-title="jQuery(2)--getter&setter">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想<a id="more"></a> 就是 ———— write less, do more. 简化通用操作，隐藏浏览器之间的差异，使得web开发变得更加简单。</p>
+<h3 id="getter-amp-setter-概要"><a href="#getter-amp-setter-概要" class="headerlink" title="getter &amp; setter 概要"></a>getter &amp; setter 概要</h3><p>jQuery 最简单常见的操作是获取（get）和设置（set）HTML属性、CSS样式、元素内容和位置宽高。</p>
+<ul>
+<li>jQuery 使用同一个方法既当getter用又做setter用，而不是定义一对方法。如果传入一个新值给该方法，则它设置此值，如果没有指定的值，则它返回当前值。</li>
+<li>用做setter时，这些方法会给jQuery对象中的每一个元素设置值，然后返回该jQuery对象以方便链式调用。</li>
+<li>用做getter时，这些方法只会查询元素集中的第一个元素，返回单个值。（如果要遍历所有元素，用map().）getter不会返回调用自身的jQuery对象，因此他只能出现在链式调用的末尾。</li>
+<li>用作setter时，这些方法经常接受对象参数。在这种情况下，该对象的每一个属性都指定一个需要设置的名/值对。</li>
+<li>用作setter时，这些方法经常接受函数参数。在这种情况下，会调用该函数来计算需要设置的值。调用该函数时的this对象是对应的元素，第一个参数是该元素的索引值，当前值则作为第二参数传入。（key,value）</li>
+</ul>
+<h3 id="获取和设置HTML属性"><a href="#获取和设置HTML属性" class="headerlink" title="获取和设置HTML属性"></a>获取和设置HTML属性</h3><p>.attr()方法：jQuery中用于HTML属性的getter/setter，他符合上面描述的概要理解中的每一条。attr()处理浏览器的兼容性和一些特殊情况，还让HTML属性名和JavaScript属性名可以等同使用（当二者存在差异时）。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"form"</span>).attr(<span class="string">"action"</span>);</div><div class="line">  <span class="comment">// 获取第一个form元素的action属性</span></div><div class="line">$(<span class="string">"#icon"</span>).attr(<span class="string">"src"</span>,<span class="string">"icon.gif"</span>);</div><div class="line">  <span class="comment">// 设置src属性</span></div><div class="line">$(<span class="string">"#banner"</span>).attr(&#123;<span class="attr">src</span>: <span class="string">"banner.gif"</span>,</div><div class="line">						 <span class="attr">alt</span>: <span class="string">"Advertisement"</span>,</div><div class="line">						 <span class="attr">width</span>: <span class="number">720</span>,<span class="attr">height</span>: <span class="number">64</span>&#125;);</div><div class="line">	 <span class="comment">// 一次性设置4个属性</span></div><div class="line">$(<span class="string">"a"</span>).attr(<span class="string">"target"</span>, <span class="string">"_blank"</span>);</div><div class="line">  <span class="comment">// 使所有链接在新窗口中打开</span></div><div class="line">$(<span class="string">"a"</span>).attr(<span class="string">"target"</span>, <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span> (<span class="keyword">this</span>.host == location.host) <span class="keyword">return</span> <span class="string">"_self"</span></div><div class="line">		<span class="keyword">else</span> <span class="keyword">return</span> <span class="string">"_blank"</span>;</div><div class="line">&#125;)</div><div class="line">  <span class="comment">// 非站内链接使用新窗口打开</span></div><div class="line">$(<span class="string">"a"</span>).attr(&#123;<span class="attr">target</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;...&#125;&#125;)</div><div class="line">  <span class="comment">// 可以像这样传入函数</span></div><div class="line">$(<span class="string">"a"</span>).removeAttr(<span class="string">"target"</span>);</div><div class="line">  <span class="comment">// 让所有连接在本窗口中打开</span></div></pre></td></tr></table></figure>
+<h3 id="获取和设置CSS属性"><a href="#获取和设置CSS属性" class="headerlink" title="获取和设置CSS属性"></a>获取和设置CSS属性</h3><p>.css() 方法和 .attr()方法很类似，只是 css() 方法作用于元素的CSS样式，而不是元素的HTML属性。注意这里的样式是单个样式而非复合样式，例如，无法获取’font’、’margin’，而应该获取’font-weight’,’font-family’,’margin-top’。</p>
+<p>设置样式时，css() 方法会将样式简单添加到该元素的style属性中，css()方法允许使用连字符或者驼峰式JavaScript样式名。获取样式值时，css()会把数值转换成带有单位后缀的字符串返回。而在设置样式值的时候，则会将数值转换为字符串，所以必要时需要添加“px”后缀。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"h1"</span>).css(<span class="string">"font-weight"</span>);</div><div class="line"><span class="comment">// 获取第一个&lt;h1&gt;的字体重量</span></div><div class="line">$(<span class="string">"h1"</span>).css(<span class="string">"fontWeight"</span>);</div><div class="line"><span class="comment">// 采用驼峰式的样式命名法则</span></div><div class="line">✘ $(<span class="string">"h1"</span>).css(<span class="string">"font"</span>);</div><div class="line"><span class="comment">// ✘ 错误的示范，无法获取复合样式</span></div><div class="line">$(<span class="string">"h1"</span>).css(&#123; <span class="string">"font-variant"</span>, <span class="string">"smallcaps"</span>&#125;)；</div><div class="line"><span class="comment">// 将样式设置在所有的&lt;h1&gt;元素上</span></div><div class="line">$(<span class="string">"h1"</span>).css(&#123; <span class="string">"border"</span>, <span class="string">"2px solid #000"</span>&#125;)</div><div class="line"><span class="comment">// 设置复合样式是ok的</span></div><div class="line">$(<span class="string">"h1"</span>).css(&#123;<span class="attr">backgroundColor</span>: <span class="string">"black"</span>,</div><div class="line">				  <span class="attr">color</span>: <span class="string">"white"</span>,</div><div class="line">				  <span class="attr">fontVariant</span>: <span class="string">"small-caps"</span>,</div><div class="line">				  <span class="attr">padding</span>: <span class="string">"10px 2px 2px 4px"</span>,</div><div class="line">				  <span class="attr">border</span>: <span class="string">"2px solid black"</span>&#125;)</div><div class="line"><span class="comment">// 可以一次性设置多个样式</span></div><div class="line">$(<span class="string">"h1"</span>).css(<span class="string">"font-size"</span>, <span class="function"><span class="keyword">function</span>(<span class="params">i, curval</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="built_in">Math</span>.round(<span class="number">1.25</span>*<span class="built_in">parseInt</span>(curval));</div><div class="line">&#125;)</div><div class="line"><span class="comment">// 让所有&lt;h1&gt; 字体大小增加 25%</span></div></pre></td></tr></table></figure>
+<h3 id="获取和设置-CSS-类"><a href="#获取和设置-CSS-类" class="headerlink" title="获取和设置 CSS 类"></a>获取和设置 CSS 类</h3><p>class 属性值（在JavaScript中通过 className 访问）会被解析成为一个由空格分隔的CSS类名列表。因此jQuery设计了一系列方法来操作列表，例如添加、删除某一项，或者判断一项是否在列表中，而不是替换整个列表。</p>
+<p>.addClass():添加类<br>.removeClass():删除类<br>.toggleClass():当元素没有该类时添加，反之删除。该方法接受第二个参数 switch 布尔类型，用于样式是否应该被添加或者删除（addOrRemove）。从1.4开始，允许不传入参数，当没有参数时第一次调用会移除所有类，第二次重新添加。<br>.hasClass():判断某类是否存在，只能接受单个类名作为参数，不支持函数参数  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"h1"</span>).addClass(<span class="string">"hilite"</span>);</div><div class="line"><span class="comment">// 给所以元素添加类</span></div><div class="line">$(<span class="string">"h1+p"</span>).addClass(<span class="string">"hitile first"</span>);</div><div class="line"><span class="comment">// 给&lt;h1&gt;后面的&lt;p&gt;元素添加多个类</span></div><div class="line">$(<span class="string">"section"</span>).addClass(<span class="function"><span class="keyword">function</span>(<span class="params">n</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"section"</span> + n;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 传递函数来添加自定义类</span></div><div class="line">$(<span class="string">"div"</span>).removeClass();</div><div class="line"><span class="comment">// 删除所有&lt;div&gt;元素中所有的类</span></div><div class="line"></div><div class="line">$(<span class="string">"p"</span>).removeClass(<span class="string">"hilite"</span>);</div><div class="line"><span class="comment">// 删除所有&lt;p&gt;元素的hilite类</span></div><div class="line">$(<span class="string">"p"</span>).removeClass(<span class="string">"hilite first"</span>);</div><div class="line"><span class="comment">// 一次删除多个类</span></div><div class="line">$(<span class="string">"section"</span>).removeClass(<span class="function"><span class="keyword">function</span>(<span class="params">n</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"section"</span> + n;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 传递函数来移除类</span></div><div class="line">$(<span class="string">"tr:odd"</span>).toggleClass(<span class="string">"oddrow"</span>);</div><div class="line"><span class="comment">// 如果类不存在，就添加该类，存在则删除</span></div><div class="line">$(<span class="string">"h1"</span>).toggleClass(<span class="string">"big bold"</span>);</div><div class="line"><span class="comment">// 一次切换两个类</span></div><div class="line">$(<span class="string">"h1"</span>).toggleClass(<span class="function"><span class="keyword">function</span>(<span class="params">n</span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="string">"big bold h1-"</span> + n;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 切换用函数计算出来的类</span></div><div class="line">$(<span class="string">"h1"</span>).toggleClass(<span class="string">"hitile"</span>, <span class="literal">true</span>);</div><div class="line"><span class="comment">// 作用类似于 addClass</span></div><div class="line">$(<span class="string">"h1"</span>).toggleClass(<span class="string">"hitile"</span>, <span class="literal">false</span>);</div><div class="line"><span class="comment">// 作用类似于 removeClass</span></div><div class="line"></div><div class="line">$(<span class="string">"p"</span>).hasClass(<span class="string">"first"</span>);</div><div class="line"><span class="comment">// 判断是否所有&lt;p&gt;元素上都有该类？一次只能接受一个类</span></div><div class="line">$(<span class="string">"#lead"</span>).is(<span class="string">".first"</span>);</div><div class="line"><span class="comment">// 功能与上相同</span></div><div class="line">$(<span class="string">"#lead"</span>).is(<span class="string">".first.hitile"</span>)</div><div class="line"><span class="comment">// .is() 更加灵活</span></div></pre></td></tr></table></figure>
+<h3 id="设置和获取HTML表单值"><a href="#设置和获取HTML表单值" class="headerlink" title="设置和获取HTML表单值"></a>设置和获取HTML表单值</h3><p>.val() 方法用来设置和获取HTML表单元素的value属性，还可以获取和设置复选框、单选按钮以及\<select>元素的选择状态。</select></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#surname"</span>).val();</div><div class="line"><span class="comment">// 获取surname文本域的值</span></div><div class="line">$(<span class="string">"#usstate"</span>).val();</div><div class="line"><span class="comment">// 从&lt;select&gt;获取单一值</span></div><div class="line">$(<span class="string">"select#extras"</span>).val();</div><div class="line"><span class="comment">// 从&lt;select multiple&gt;中获取一组值</span></div><div class="line">$(<span class="string">"input:radio[name=ship]:checked"</span>).val();</div><div class="line"><span class="comment">// 获取选中的单选按钮的值</span></div><div class="line">$(<span class="string">"#email"</span>).val(<span class="string">"Ivalid email address"</span>);</div><div class="line"><span class="comment">// 给文本域设置值</span></div><div class="line">$(<span class="string">"input:checkbox"</span>).val([<span class="string">"opt1"</span>,<span class="string">"opt2"</span>]);</div><div class="line"><span class="comment">// 选中带有这些名字或值的复选框</span></div><div class="line">$(<span class="string">"input:text"</span>).val(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">return</span> <span class="keyword">this</span>.defaultValue;</div><div class="line">&#125;)</div><div class="line"><span class="comment">// 重置所有文本域的默认值</span></div></pre></td></tr></table></figure>
+<h3 id="设置和获取元素内容"><a href="#设置和获取元素内容" class="headerlink" title="设置和获取元素内容"></a>设置和获取元素内容</h3><p>.text() 和 .html()方法都是用来获取和设置元素的纯文本或HTML内容。<br>.text() 不带参数调用时会返回所有匹配元素的子孙节点的文本内容。</p>
+<p>.html() 不带参数调用时会返回第一个匹配元素的HTML的内容。<br>x.html() 和 x[0].innerHTML一样高效。  </p>
+<p>如果传入字符串给.text()或.html()，该字符串会用作该元素的纯文本或格式化的HTML内容，它会替换掉所有存在的内容，和其他的setter方法一样，我们还可以传入函数，该函数用来计算出表示新内容的字符串：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> title = $(<span class="string">"head title"</span>).text()</div><div class="line"><span class="comment">// 获取文档标题</span></div><div class="line"><span class="keyword">var</span> headline = $(<span class="string">"h1"</span>).html()</div><div class="line"><span class="comment">// 获取第一个&lt;h1&gt;元素的html内容</span></div><div class="line">$(<span class="string">"h1"</span>).text(<span class="function"><span class="keyword">function</span>(<span class="params">n, current</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> <span class="string">"§"</span> + (n+<span class="number">1</span>) + <span class="string">": "</span> + current</div><div class="line">&#125;)</div><div class="line"><span class="comment">// 给每个标题添加章节符号</span></div></pre></td></tr></table></figure>
+<h3 id="获取和设置元素位置宽高"><a href="#获取和设置元素位置宽高" class="headerlink" title="获取和设置元素位置宽高"></a>获取和设置元素位置宽高</h3><p>.offset() 可以获取或者设置元素的位置。该方法相对文档来计算位置值，返回一个对象，带有left和top属性，用老表示X和Y坐标。如果传入带有这些属性的对象给该方法，他会给元素设置指定的位置。必要时会设置CSS的position属性来使得元素可定位：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> elt = $(<span class="string">"#sprite"</span>);			<span class="comment">// 需要移动的元素</span></div><div class="line"><span class="keyword">var</span> position = elt.offset();	<span class="comment">// 	获取当前位置</span></div><div class="line">position.top += <span class="number">100</span>;				<span class="comment">// 改变Y坐标</span></div><div class="line">elt.offset(position);				<span class="comment">// 设置新位置</span></div><div class="line"></div><div class="line"><span class="comment">// 将所有&lt;h1&gt;元素向右移动，移动的距离取决于他们在文档中的位置</span></div><div class="line">$(<span class="string">"h1"</span>).offset(<span class="function"><span class="keyword">function</span>(<span class="params">index,curpos</span>)</span>&#123;</div><div class="line">  <span class="keyword">return</span> &#123;<span class="attr">left</span>: curpos.left + <span class="number">25</span>*index, <span class="attr">top</span>: curpos.top&#125;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>.position() 方法很像.offset() 方法，但它只能用作getter，它返回的元素位置是相对于其偏移父元素的，而不是相对于文档。  </p>
+<p>jQuery对象的.offsetParent()方法:它返回第一个匹配元素用于定位的父节点。返回父元素中第一个其position设为relative或者absolute的元素。没有的话就是<body>，此方法仅对可见元素有效。</body></p>
+<p>.offset()返回元素的绝对位置，坐标相对于文档，而.position()则返回相对于元素的.offsetParent()的偏移量。</p>
+<p>用于获取元素高度和宽度的getter都有三个。</p>
+<p>.width() &amp; .height()返回宽度和高度，不含内边距、边框和外边距。<br>.innerWidth() &amp; .innerHeight()则是包含内边距宽高。<br>.outerWidth() &amp; .outerHeight()则是包含边框内边距的宽高。<br>.outerWidth(true) &amp; .outerHeight(true)还包含外边距。  </p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> body = $(<span class="string">"body"</span>);</div><div class="line"><span class="keyword">var</span> contentWidth = body.width();</div><div class="line"><span class="keyword">var</span> paddingWidth = body.innerWidth();</div><div class="line"><span class="keyword">var</span> borderWidth = body.outerWidth();</div><div class="line"><span class="keyword">var</span> marginWidth = body.outerWidth(<span class="literal">true</span>);</div><div class="line"><span class="keyword">var</span> paddings = paddingWidth - contentWidth;</div><div class="line"><span class="comment">// 左右内边距之和</span></div><div class="line"><span class="keyword">var</span> borders = borderWdith - paddingWdith;</div><div class="line"><span class="comment">// 左、右边框之和</span></div><div class="line"><span class="keyword">var</span> margins = marginWdith - borderWidth;</div><div class="line"><span class="comment">// 左右外边距之和</span></div></pre></td></tr></table></figure>
+<p>需要注意的是 .width() &amp; .height()方法的不对称性，这两个方法可以作为 getter和setter 使用，但是getter时返回的是<em>不含内边距和边框的内容宽高</em>，但是作为setter时他设置的是盒模型下css的width和height属性，<em>可能包含内边距和边框</em>。</p>
+<figure class="highlight"><figcaption><span>box-sizing:content-box/border-box```</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">.scrollTop() &amp; .scrollLeft():可以获取或设置滚动条位置。这些方法可以用于Window对象或者Document元素上，当用在Document对象上时，会获取或设置存放该Document的window对象的滚动条位置，与其他setter不同的时，这两个方法不能接受函数作为参数。</div><div class="line"></div><div class="line">```javascript</div><div class="line">  // 根据页面数 n 来滚动窗口，可以是分数或负数</div><div class="line">  function page(n) &#123;</div><div class="line">    var w = $(window);</div><div class="line">    // 将window封装为jQuery对象</div><div class="line">    var pagesize = w.height();</div><div class="line">    // 得到页面的高度</div><div class="line">    var current = w.scrollTop();</div><div class="line">    // 得到当前的滚动条位置</div><div class="line">    w.scrollTop(current + n*pagesize);</div><div class="line">    // 设置新的滚动条位置</div><div class="line">  &#125;;</div></pre></td></tr></table></figure>
+<h3 id="获取和设置元素数据"><a href="#获取和设置元素数据" class="headerlink" title="获取和设置元素数据"></a>获取和设置元素数据</h3><p>jQuery定义了一个名为.data()的getter/setter方法，可以用来设置或者获取和文档元素、Document、window对象相关联的数据。（<em>将数据与任意元素关联是很重要和强大的一项能力：这也是jQuery的事件处理程序注册和效果队列机制的基础，有时我们还会在自己的代码中使用.data()方法。</em>）</p>
+<p>.removeData()方法用来从元素中删除数据。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"div"</span>).data(<span class="string">"x"</span>, <span class="number">1</span>);</div><div class="line"><span class="comment">// 设置一些数据</span></div><div class="line">$(<span class="string">"#mydiv"</span>).data(<span class="string">"x"</span>);</div><div class="line"><span class="comment">// 获取数据“x”的值</span></div><div class="line">$(<span class="string">"div.nodata"</span>).removeData(<span class="string">"x"</span>);</div><div class="line"><span class="comment">// 删除一些数据</span></div><div class="line"></div><div class="line">$(el).data(...) <span class="comment">// data的方法形式</span></div><div class="line"></div><div class="line">$.data(el, ...) <span class="comment">// data的函数形式</span></div><div class="line"></div><div class="line"><span class="comment">// 出于一些浏览器的限制，类似&lt;applet&gt;、</span></div><div class="line"><span class="comment">// &lt;object&gt;、&lt;embed&gt;元素无法关联数据。</span></div></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>理论结合实践，通过科学的方法，合理的时间掌控来做到高效的学习。  </p>
+<p><em>番茄工作法</em>、<em>周期性复习</em> etc</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+            <a href="/tags/framework/" rel="tag"># framework</a>
+          
+            <a href="/tags/jquery/" rel="tag"># jquery</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/04/jQuery(1)--基础/" rel="next" title="jQuery(1)--基础概念">
+                <i class="fa fa-chevron-left"></i> jQuery(1)--基础概念
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/05/jQuery(3)--修改文档/" rel="prev" title="jQuery(3)--修改文档结构">
+                jQuery(3)--修改文档结构 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/06/04/jQuery(2)--getter&setter/"
+     data-title="jQuery(2)--getter&setter"
+     data-content=""
+     data-url="http://www.yevvb.com/2017/06/04/jQuery(2)--getter&setter/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/06/04/jQuery(2)--getter&setter/"
+           data-title="jQuery(2)--getter&setter" data-url="http://www.yevvb.com/2017/06/04/jQuery(2)--getter&setter/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="叶文斌" />
+          <p class="site-author-name" itemprop="name">叶文斌</p>
+          <p class="site-description motion-element" itemprop="description">Yevvb's life!</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yevvb" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/Yevvb" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#getter-amp-setter-概要"><span class="nav-number">1.</span> <span class="nav-text">getter & setter 概要</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取和设置HTML属性"><span class="nav-number">2.</span> <span class="nav-text">获取和设置HTML属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取和设置CSS属性"><span class="nav-number">3.</span> <span class="nav-text">获取和设置CSS属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取和设置-CSS-类"><span class="nav-number">4.</span> <span class="nav-text">获取和设置 CSS 类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置和获取HTML表单值"><span class="nav-number">5.</span> <span class="nav-text">设置和获取HTML表单值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置和获取元素内容"><span class="nav-number">6.</span> <span class="nav-text">设置和获取元素内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取和设置元素位置宽高"><span class="nav-number">7.</span> <span class="nav-text">获取和设置元素位置宽高</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取和设置元素数据"><span class="nav-number">8.</span> <span class="nav-text">获取和设置元素数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叶文斌</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yevvb"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("4zDIbrb4QcncU8dM1Nzyjd5E-gzGzoHsz", "gR0HaJQARcuD6jzCdvf6MSVa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>

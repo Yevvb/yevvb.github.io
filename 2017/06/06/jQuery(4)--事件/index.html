@@ -1,0 +1,1232 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="javascript,framework,jquery," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
+<meta property="og:type" content="article">
+<meta property="og:title" content="jQuery(4)--事件">
+<meta property="og:url" content="http://www.yevvb.com/2017/06/06/jQuery(4)--事件/index.html">
+<meta property="og:site_name" content="Yevvb">
+<meta property="og:description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
+<meta property="og:updated_time" content="2017-06-20T09:40:01.749Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="jQuery(4)--事件">
+<meta name="twitter:description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '6372124684347000000',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://www.yevvb.com/2017/06/06/jQuery(4)--事件/"/>
+
+
+
+
+
+  <title> jQuery(4)--事件 | Yevvb </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Yevvb</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+    
+      <p class="site-subtitle">让时间有迹可循</p>
+    
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/06/06/jQuery(4)--事件/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="叶文斌">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/uploads/avatar.png">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Yevvb">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="Yevvb" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                jQuery(4)--事件
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-06T20:43:11+08:00">
+                2017-06-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index">
+                    <span itemprop="name">javascript</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/jQuery/" itemprop="url" rel="index">
+                    <span itemprop="name">jQuery</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2017/06/06/jQuery(4)--事件/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/06/jQuery(4)--事件/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2017/06/06/jQuery(4)--事件/" class="leancloud_visitors" data-flag-title="jQuery(4)--事件">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">阅读次数 </span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想<a id="more"></a> 就是 ———— write less, do more. 简化通用操作，隐藏浏览器之间的差异，使得web开发变得更加简单。</p>
+<h3 id="jQuery处理事件"><a href="#jQuery处理事件" class="headerlink" title="jQuery处理事件"></a>jQuery处理事件</h3><p>处理事件一直有个难点就是IE9以下的事件API与其他浏览器都不相同。为了解决这个问题，jQuery实现了一个统一事件API，可工作在所有浏览器中（当然随着版本迭代，旧浏览器也逐步被抛弃）。</p>
+<h3 id="事件处理程序的简单注册"><a href="#事件处理程序的简单注册" class="headerlink" title="事件处理程序的简单注册"></a>事件处理程序的简单注册</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//单机任意p段落时，改变背景色</span></div><div class="line">$(<span class="string">"p"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">			  $(<span class="keyword">this</span>).css(<span class="string">"background-color"</span>, <span class="string">"gray"</span>)</div><div class="line">			&#125;);</div></pre></td></tr></table></figure>
+<p>简单事件处理程序注册的方法：</p>
+<table>
+<thead>
+<tr>
+<th>blur()</th>
+<th>focusin()</th>
+<th>mousedown()</th>
+<th>mouseup()</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>change()</td>
+<td>focusout()</td>
+<td>mouseenter()</td>
+<td>resize()</td>
+</tr>
+<tr>
+<td>click()</td>
+<td>keydown()</td>
+<td>mouseleave()</td>
+<td>scroll()</td>
+</tr>
+<tr>
+<td>dbclick()</td>
+<td>keypress()</td>
+<td>mousemove()</td>
+<td>select()</td>
+</tr>
+<tr>
+<td>error()</td>
+<td>keyup()</td>
+<td>mouseout()</td>
+<td>submit()</td>
+</tr>
+<tr>
+<td>focus()</td>
+<td>load()</td>
+<td>mouseover()</td>
+<td>unload()</td>
+</tr>
+</tbody>
+</table>
+<p>注意事项： </p>
+<ul>
+<li>focus和blur事件不支持冒泡，focusin和focusout支持。</li>
+<li>mouseover和mouseout事件支持冒泡，mouseenter和mouseleave是非冒泡事件，解决前两者冒泡带来的问题。</li>
+<li>resize和unload事件类型只在window对象中触发，应在$(window)对象上调用。</li>
+<li>scroll()经常用于$(window)对象，但它也用于带滚动条的任何元素。</li>
+<li>load()方法也能在$(window)上调用，用来给窗口注册加载事件处理程序，但最好还是将初始化函数传给$()。</li>
+<li>error()方法可用于<img>元素上，用来注册图片加载失败时调用的处理程序。</li>
+<li>hover()用来给mouseenter和mouseleave注册处理程序。</li>
+<li>hover(f,g)相当于调用mouseenter(f) &amp; mouseleave(g)</li>
+<li>toggle()将事件处理程序函数和单机事件绑定，可以指定多个函数。</li>
+<li>toggle(f,g,h),第一次单击调用触发f()，第二次单击触发g()，以此类推。<em>该方法在1.8版本中被弃用</em></li>
+</ul>
+<p>事件注册的其他方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"img"</span>, &#123;</div><div class="line">  <span class="attr">src</span>: image_url,</div><div class="line">  <span class="attr">alt</span>: img_description,</div><div class="line">  <span class="attr">className</span>: <span class="string">"translucent_image"</span>,</div><div class="line">  <span class="attr">click</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; $(<span class="keyword">this</span>).css(<span class="string">"opacity"</span>,<span class="string">"0"</span>); &#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>需要注意的是，该方法中第二个参数任意一个属性与事件注册方法重名，就会被当做处理程序函数，并注册为命名事件类型的处理程序。</p>
+<h3 id="jQuery事件处理程序"><a href="#jQuery事件处理程序" class="headerlink" title="jQuery事件处理程序"></a>jQuery事件处理程序</h3><p>很多事件处理程序函数被当做是不带参数以及返回值的，但jQuery调用每一个事件处理程序是的确传入了一个或者多个参数，并且对处理程序的返回值进行了处理。</p>
+<p>每一个事件处理程序都传入一个jQuery事件对象作为第一个参数。该对象的字段提供了与该事件相关的详细信息。</p>
+<p>jQuery模拟标准Event对象，即使在不支持的标准事件对象的浏览器中（像IE8及其以下），jQuery事件对象在所有浏览器上不再拥有一组相同的字段。</p>
+<p>jQuery事件处理程序的返回值始终有意义，如果<strong>返回false</strong>，与该事件相关联的<strong>默认行</strong>为，以及该事件接下来的<strong>冒泡都会被取消</strong>。也就是说，<em>返回false等同于调用Event对象的preventDefault()和stopPropagation()方法</em>。当<strong>返回一个</strong>值（非undefined）时，jQuery会将该值 <em>存储在result属性</em> 中，该属性可以诶后续调用的事件处理程序访问。</p>
+<h3 id="jQuery事件的对象"><a href="#jQuery事件的对象" class="headerlink" title="jQuery事件的对象"></a>jQuery事件的对象</h3><p>jQuery通过定义自己的event对象来隐藏浏览器之间的实现差异。当一个jQuery事件处理程序被调用时，总会传入一个jQuery事件对象作为其第一个参数。jQuery复制了所有原生event对象到jQuery Event对象上：</p>
+<table>
+<thead>
+<tr>
+<th>altKey</th>
+<th>ctrlKey</th>
+<th>newValue</th>
+<th>screenX</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>attrChange</td>
+<td>currentTarget</td>
+<td>offsetX</td>
+<td>screenY</td>
+</tr>
+<tr>
+<td>attrName</td>
+<td>detail</td>
+<td>offsetY</td>
+<td>shiftKey</td>
+</tr>
+<tr>
+<td>bubbles</td>
+<td>eventPhase</td>
+<td>originalTarget</td>
+<td>srcElement</td>
+</tr>
+<tr>
+<td>button</td>
+<td>fromElement</td>
+<td>pageX</td>
+<td>target</td>
+</tr>
+<tr>
+<td>cancelable</td>
+<td>keycode</td>
+<td>pageY</td>
+<td>toElement</td>
+</tr>
+<tr>
+<td>charCode</td>
+<td>layerX</td>
+<td>prevValue</td>
+<td>view</td>
+</tr>
+<tr>
+<td>clientX</td>
+<td>layerY</td>
+<td>relatedNode</td>
+<td>wheelDelta</td>
+</tr>
+<tr>
+<td>clientY</td>
+<td>metaKey</td>
+<td>relatedTarget</td>
+<td>which</td>
+</tr>
+</tbody>
+</table>
+<p>除了以上这些属性，Event对象还定义了下列方法：</p>
+<ul>
+<li>preventDefault() </li>
+<li>isDefaultPrevented()</li>
+<li>stopPropagation()</li>
+<li>isPropagationStopped()</li>
+<li>stopImmediatePropagation()</li>
+<li>isImmediatePropagationStopped()</li>
+</ul>
+<p>需要注意的jQuery做了特殊处理的事件对象：</p>
+<ul>
+<li>metaKey</li>
+<li>pageX,pageY</li>
+<li>target,currentTarget,relatedTarget</li>
+<li>timeStamp</li>
+<li>which</li>
+</ul>
+<p>还有以下jQuery自定义的特定于jQuery的对象：</p>
+<ul>
+<li>data：如果注册事件指定了额外的数据，处理程序可以用该字段访问</li>
+<li>handler：当前正被调用的事件处理程序<strong>函数</strong>的引用</li>
+<li>result：该事件最近调用的处理程序的返回值，忽略没有返回值的处理程序</li>
+<li>originalEvent：浏览器生成的原生事件对象的引用</li>
+</ul>
+<h3 id="事件处理程序的高级注册"><a href="#事件处理程序的高级注册" class="headerlink" title="事件处理程序的高级注册"></a>事件处理程序的高级注册</h3><p>.bind() 方法即为命名的事件绑定处理程序，该处理程序会绑定到jQuery对象的每一个元素上。直接使用bind()可以让我们使用事件注册的高级特性，这些特性在较简单的方法上是不可用的。</p>
+<p>注：jQuery使用“bind”来表示事件处理程序的注册。ES5给函数定义了bind()方法，使用“bind”术语表示对象与函数之间的关联，这些函数会在这些对象上调用。Function.bind()方法的jQuery版本是一个名为jQuery.proxy()的工具函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'p'</span>).click(f);</div><div class="line">$(<span class="string">'p'</span>).bind(<span class="string">'click'</span>, f);</div></pre></td></tr></table></figure>
+<p>可以看到，bind()方法需要一个事件类型字符串作为其第一个参数，一个事件处理程序函数作为第二个参数。</p>
+<p>jQuery允许传入三个参数，此时第一个参数仍为事件类型，第三个参数为事件处理函数，第二个参数为可以为任何值，<em>jQuery会在调用处理程序前，将指定的值设置为event对象的data属性。通过这种方式传递额外的数据给处理程序，不需要使用闭包，有时非常有用。</em></p>
+<p>bind()的其他特性：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'a'</span>).hover(f);</div><div class="line">$(<span class="string">'a'</span>).bind(<span class="string">'mouseenter mouseleave'</span>, f);</div><div class="line"><span class="comment">// 两者等价，允许第一个参数由空格分隔事件类型</span></div><div class="line"><span class="comment">// 处理程序会为每一个事件类型注册</span></div><div class="line"></div><div class="line">$(<span class="string">'a'</span>).bind(<span class="string">'mouseover.myMod'</span>, f);</div><div class="line"><span class="comment">// 作为mouseover处理程序在命名空间myMod中把f绑定到所有元素</span></div><div class="line">$(<span class="string">'a'</span>).bind(<span class="string">'mouseout.myMod.yourMod'</span>, f)</div><div class="line"><span class="comment">// 在命名空间‘myMod’和‘yourMod’中作为mouseout处理程序绑定 f</span></div><div class="line"><span class="comment">// 允许为注册的事件处理程序指定命名空间</span></div><div class="line"></div><div class="line">$(<span class="string">'a'</span>).hover(f, g)</div><div class="line">$(<span class="string">'a'</span>).bind(&#123;<span class="attr">mouseenter</span>:f, <span class="attr">mouseleave</span>:g&#125;)</div><div class="line"><span class="comment">// 两者等价</span></div><div class="line"><span class="comment">// 第一个参数可以是对象，该对象吧事件名映射到处理程序函数</span></div></pre></td></tr></table></figure>
+<p>.one() 方法就和 .bind()方法一样，二者唯一的区别就是 one() 注册的事件处理器永远只会触发一次。</p>
+<h3 id="注销事件处理程序"><a href="#注销事件处理程序" class="headerlink" title="注销事件处理程序"></a>注销事件处理程序</h3><p>.unbind() 方法只可以用来注销使用bind()注册的事件处理程序，防止在将来的事件中被触发。</p>
+<p>不带参数时，unbind()会注销jQuery对象中所有元素的（所有事件类型的）所有事件处理程序：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'*'</span>).unbind();</div><div class="line"><span class="comment">// 从所有元素中移除所有jQuery事件处理程序</span></div><div class="line"></div><div class="line">$(<span class="string">'a'</span>).unbind(<span class="string">"mouseover mouseout"</span>);</div><div class="line"><span class="comment">// 从所有a元素中取消绑定所有mouseover和mouseout处理程序</span></div><div class="line"></div><div class="line">$(<span class="string">'a'</span>).unbind(<span class="string">"mouseover.myMod mouseout.myMod"</span>);</div><div class="line"><span class="comment">// 取消绑定在‘myMod’下所有的mouseover和mouseout处理程序</span></div><div class="line">$(<span class="string">'a'</span>).unbind(<span class="string">".myMod"</span>);</div><div class="line"><span class="comment">// 取消绑定在‘myMod’下所有的事件类型的处理程序</span></div><div class="line">$(<span class="string">'a'</span>).unbind(<span class="string">"click.ns1.ns2"</span>);</div><div class="line"><span class="comment">// 同时取消绑定在‘ns1’和‘ns2’命名空间下的单机处理程序</span></div><div class="line"></div><div class="line">$(<span class="string">"#muButton"</span>).unbind(<span class="string">'click'</span>, myClickHandler);</div><div class="line"><span class="comment">// 注销特定类型的事件处理程序函数，可用于传入3个参数的bind()</span></div><div class="line"></div><div class="line">$(<span class="string">'a'</span>).unbind(&#123;</div><div class="line">  <span class="attr">mouseover</span>: mouseoverHandler,</div><div class="line">  <span class="attr">mouseout</span>: mouseoutHandler</div><div class="line">&#125;);</div><div class="line"><span class="comment">// unbind()会轮询该对象，移除对应的事件类型处理程序函数</span></div><div class="line"></div><div class="line">unbind(ev);</div><div class="line">unbind(ev.type, ev.handler);</div><div class="line"><span class="comment">// 以上两者等价，传递一个jQuery event给unbind()</span></div><div class="line"><span class="comment">//他会自动取消传入事件的处理程序函数</span></div></pre></td></tr></table></figure>
+<h3 id="触发事件"><a href="#触发事件" class="headerlink" title="触发事件"></a>触发事件</h3><p>当点击鼠标、键盘或触发其他时间类型时，注册的事件处理程序会自动调用。而有时我们需要手动触发…与很多jQuery方法同时用作getter和setter类似。</p>
+<ul>
+<li>事件方法不带参数调用时：手动触发事件</li>
+<li>带参数调用时：注册事件处理程序</li>
+</ul>
+<p>当手动调用事件方法时，如果处理程序没有返回false或者调用事件对象的preventDefault()，实际上将会执行处理程序。<strong><em>需要注意的是，冒泡事件依然会冒泡！</em></strong></p>
+<p>手动调用事件方法无法触发addEventListener()或者attachEvent()注册的事件处理程序。</p>
+<p>.trigger()方法会在jQuery对象中的所有元素上触发为该类型事件注册的所有处理程序。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#my_form"</span>).submit();</div><div class="line">$(<span class="string">"#my_form"</span>).trigger(<span class="string">"submit"</span>);</div><div class="line"><span class="comment">// 两者等价，都是触发该事件</span></div><div class="line"><span class="comment">// 但后者传入的字符串不能是多个事件类型</span></div><div class="line"></div><div class="line">$(<span class="string">"button"</span>).trigger(<span class="string">"click.ns1"</span>);</div><div class="line"><span class="comment">// 触发某个命名空间下的click处理程序</span></div><div class="line">$(<span class="string">"button"</span>).trigger(<span class="string">"click!"</span>);</div><div class="line"><span class="comment">// 触发没有命名空间的click处理程序</span></div><div class="line"></div><div class="line">$(<span class="string">"#button1"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  $(<span class="string">"#button2"</span>).trigger(e);</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 接受event对象（或者带有type属性的对象）为参数</span></div><div class="line"><span class="comment">// btn1上的单击处理程序触发btn2上的相同事件</span></div><div class="line"></div><div class="line">$(<span class="string">"#button1"</span>).trigger(&#123;<span class="attr">type</span>: <span class="string">'click'</span>, <span class="attr">synthetic</span>: <span class="literal">true</span>&#125;);</div><div class="line"><span class="comment">// 触发事件时，添加额外的属性给时间对象</span></div><div class="line"></div><div class="line">$(<span class="string">"#btn1"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params">e</span>) </span>&#123;</div><div class="line">  <span class="keyword">if</span> (e.synthetic) &#123;...&#125;;</div><div class="line">&#125;);</div><div class="line"><span class="comment">// 检测额外属性来区分是否是真实事件还是虚假事件</span></div><div class="line"></div><div class="line">$(<span class="string">"btn1"</span>).trigger(<span class="string">"click"</span>, <span class="literal">true</span>);</div><div class="line">$(<span class="string">"btn1"</span>).trigger(<span class="string">"click"</span>, [x,y,z]);</div><div class="line"><span class="comment">// 可以选择传入单一或者多个额外的参数</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>jQuery.event.trigger()</strong><br>该jQuery函数接受与.trigger()方法一样的参数，但在整个文档中触发指定事件类型的处理程序是更加高效。并且，以这种方法触发的全局事件不会冒泡，并且只会触发使用jQuery方法注册的处理程序。（不包括使用onclick等DOM属性注册的事件处理程序）</p>
+</blockquote>
+<p>如果想调用事件处理程序，但是不执行默认操作，可以使用triggerHandler()替代trigger()。该方法和trigger()类似，除了会首先调用Event对象的preventDefault()和cancelBubble()方法。这意味着triggerHandler()方法手动触发的事件不会冒泡和触发默认行为。</p>
+<h3 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h3><p>使用.bind()注册自定义事件的处理程序，使用.trigger()调用这些处理程序。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">"#logoff"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;]</div><div class="line">  $.event.trigger(<span class="string">"logoff"</span>);		<span class="comment">//广播事件</span></div><div class="line">  <span class="built_in">window</span>.location = <span class="string">"logoff.php"</span>;	<span class="comment">//导航到新页面</span></div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="comment">// 用户单机“logoff”按钮时，广播一个自定义事件</span></div><div class="line"><span class="comment">// 给任何需要保存状态的感兴趣的观察者，然后导航到新页面</span></div></pre></td></tr></table></figure>
+<h3 id="实时事件"><a href="#实时事件" class="headerlink" title="实时事件"></a>实时事件</h3><p>eg：比如动态添加到dom的日程，需要修改状态添加点击事件</p>
+<p>使用.bind()给文档中所以a元素绑定了事件处理程序，接着又创建了带有a元素的新文档内容，这是新元素和老元素不会有相同的事件处理程序，行为将不一致。</p>
+<p>.delegate() &amp; .undelegate() 通常在 $(document) 上调用，并传入一个jQuery选择器字符串、一个jQuery事件类型字符串以及一个jQuery事件处理程序函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">$(<span class="built_in">document</span>).delegate(<span class="string">'a'</span>, <span class="string">"mouseover"</span>, linkHandler);</div><div class="line"></div><div class="line"><span class="comment">// 使用bind()来处理文档静态部分</span></div><div class="line"><span class="comment">// delegate()处理动态修改的部分</span></div></pre></td></tr></table></figure>
+<p>.live() &amp; .die() 也用来注册实时事件。live()相比delegete()更难理解，但是使用更普遍。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">$(<span class="string">'a'</span>).live(<span class="string">"mouseover"</span>, linkHandler);</div><div class="line">$(<span class="string">"a"</span>, $(<span class="string">".dynamic"</span>)).live(<span class="string">"mouseover"</span>, linkHandler);</div><div class="line"><span class="comment">// 注意传给$()的参数</span></div><div class="line"></div><div class="line">x.live(type, handler);</div><div class="line">$(x.context).delegate(x.selector, type ,handler);</div><div class="line"><span class="comment">// 对于jQuery对象x，上面两个方法所做事情相同。</span></div></pre></td></tr></table></figure>
+<blockquote>
+<p>在jQuery对象上调用live()方法时，该对象中的元素并没有起作用，真正起作用的是传递给$()方法的第一个参数选择器和第二个参数上下文，jQuery对象通过context和selector对象来使得这些值可用。通常不带第二个参数调用$()时，context对象是当前文档。</p>
+</blockquote>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>要学会事件，需要掌握事件基本类型，事件对象，注册方法以及如何注销事件，注册实时事件，自定义事件，掌握事件的触发。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/javascript/" rel="tag"># javascript</a>
+          
+            <a href="/tags/framework/" rel="tag"># framework</a>
+          
+            <a href="/tags/jquery/" rel="tag"># jquery</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/05/jQuery(3)--修改文档/" rel="next" title="jQuery(3)--修改文档结构">
+                <i class="fa fa-chevron-left"></i> jQuery(3)--修改文档结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <div class="ds-share flat" data-thread-key="2017/06/06/jQuery(4)--事件/"
+     data-title="jQuery(4)--事件"
+     data-content=""
+     data-url="http://www.yevvb.com/2017/06/06/jQuery(4)--事件/">
+  <div class="ds-share-inline">
+    <ul  class="ds-share-icons-16">
+
+      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+
+    </ul>
+    <div class="ds-share-icons-more">
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+
+          
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/06/06/jQuery(4)--事件/"
+           data-title="jQuery(4)--事件" data-url="http://www.yevvb.com/2017/06/06/jQuery(4)--事件/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/avatar.png"
+               alt="叶文斌" />
+          <p class="site-author-name" itemprop="name">叶文斌</p>
+          <p class="site-description motion-element" itemprop="description">Yevvb's life!</p>
+        </div>
+        <nav class="site-state motion-element">
+        
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/yevvb" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/Yevvb" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery处理事件"><span class="nav-number">1.</span> <span class="nav-text">jQuery处理事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件处理程序的简单注册"><span class="nav-number">2.</span> <span class="nav-text">事件处理程序的简单注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery事件处理程序"><span class="nav-number">3.</span> <span class="nav-text">jQuery事件处理程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery事件的对象"><span class="nav-number">4.</span> <span class="nav-text">jQuery事件的对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#事件处理程序的高级注册"><span class="nav-number">5.</span> <span class="nav-text">事件处理程序的高级注册</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注销事件处理程序"><span class="nav-number">6.</span> <span class="nav-text">注销事件处理程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#触发事件"><span class="nav-number">7.</span> <span class="nav-text">触发事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义事件"><span class="nav-number">8.</span> <span class="nav-text">自定义事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实时事件"><span class="nav-number">9.</span> <span class="nav-text">实时事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">10.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">叶文斌</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yevvb"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js?v=5.1.0"></script>
+    
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("4zDIbrb4QcncU8dM1Nzyjd5E-gzGzoHsz", "gR0HaJQARcuD6jzCdvf6MSVa");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
