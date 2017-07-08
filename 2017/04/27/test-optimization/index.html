@@ -102,16 +102,16 @@
 
 
 
-<meta name="description" content="在读完《YDKJS ASYNC&amp;amp;PERFORMANCE》之后，不禁会产生这样的思考，我写的代码性能怎么样？该如何优化它呢？在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！">
+<meta name="description" content="《YDKJS ASYNC&amp;amp;PERFORMANCE》之中提到了代码性能和代码优化，在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！">
 <meta property="og:type" content="article">
 <meta property="og:title" content="性能测试和优化">
 <meta property="og:url" content="http://www.yevvb.com/2017/04/27/test-optimization/index.html">
 <meta property="og:site_name" content="Yevvb">
-<meta property="og:description" content="在读完《YDKJS ASYNC&amp;amp;PERFORMANCE》之后，不禁会产生这样的思考，我写的代码性能怎么样？该如何优化它呢？在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！">
-<meta property="og:updated_time" content="2017-04-29T21:58:56.451Z">
+<meta property="og:description" content="《YDKJS ASYNC&amp;amp;PERFORMANCE》之中提到了代码性能和代码优化，在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！">
+<meta property="og:updated_time" content="2017-06-20T13:18:30.784Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="性能测试和优化">
-<meta name="twitter:description" content="在读完《YDKJS ASYNC&amp;amp;PERFORMANCE》之后，不禁会产生这样的思考，我写的代码性能怎么样？该如何优化它呢？在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！">
+<meta name="twitter:description" content="《YDKJS ASYNC&amp;amp;PERFORMANCE》之中提到了代码性能和代码优化，在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！">
 
 
 
@@ -420,7 +420,7 @@
       
 
       
-        <p>在读完《YDKJS ASYNC&amp;PERFORMANCE》之后，不禁会产生这样的思考，我写的代码性能怎么样？该如何优化它呢？在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！<a id="more"></a> 目标是弄清楚哪些种类的 JavaScript 性能更重要，哪些种类无关紧要，以及如何区分。</p>
+        <p>《YDKJS ASYNC&amp;PERFORMANCE》之中提到了代码性能和代码优化，在此先不谈论宏观程序架构级的性能表现，单从JS程序语言本身来思考！<a id="more"></a> 目标是弄清楚哪些种类的 JavaScript 性能更重要，哪些种类无关紧要，以及如何区分。</p>
 <h3 id="性能测试"><a href="#性能测试" class="headerlink" title="性能测试"></a>性能测试</h3><p>如何测试一端代码的运行速度？首先想到的肯定是计算运行时间：</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> strat = <span class="built_in">Date</span>.now(); </div><div class="line"><span class="comment">//or (new Date()).getTime()</span></div><div class="line"></div><div class="line"><span class="comment">// some operate</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> end = <span class="built_in">Date</span>.now();</div><div class="line"><span class="built_in">console</span>.log(<span class="string">"duration:"</span>,(end - start));</div></pre></td></tr></table></figure>
 <p>这可能是最想想到的办法，计算运行时间来判断，思路没有问题，但是运行过程受到测试环境、平台的定时器精度、引擎或者系统占用、引擎带来的优化等等诸多限制</p>
