@@ -907,12 +907,7 @@
 
 </body>
 </html>
-ter, error) {
-                console.log('Failed to save Visitor num, with error message: ' + error.message);
-              }
-            });
-          } else {
-            var newcounter = new Counter();
+         var newcounter = new Counter();
             /* Set ACL */
             var acl = new AV.ACL();
             acl.setPublicReadAccess(true);

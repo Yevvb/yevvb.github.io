@@ -104,13 +104,13 @@
 
 <meta name="description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="You don't know JavaScript(Chapter 2)">
-<meta property="og:url" content="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/index.html">
+<meta property="og:title" content="YDKJS-this">
+<meta property="og:url" content="http://www.yevvb.com/2017/03/30/YDKJS4-this/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
-<meta property="og:updated_time" content="2017-03-31T00:34:29.776Z">
+<meta property="og:updated_time" content="2017-07-09T10:26:15.681Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="You don't know JavaScript(Chapter 2)">
+<meta name="twitter:title" content="YDKJS-this">
 <meta name="twitter:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
 
 
@@ -139,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/"/>
+  <link rel="canonical" href="http://www.yevvb.com/2017/03/30/YDKJS4-this/"/>
 
 
 
 
 
-  <title> You don't know JavaScript(Chapter 2) | Yevvb </title>
+  <title> YDKJS-this | Yevvb </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -291,7 +291,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/">
+  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/03/30/YDKJS4-this/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="叶文斌">
@@ -315,7 +315,7 @@
             
             
               
-                You don't know JavaScript(Chapter 2)
+                YDKJS-this
               
             
           </h1>
@@ -382,8 +382,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/03/30/You-Don't-Know-Javascript4/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/30/You-Don't-Know-Javascript4/" itemprop="commentCount"></span>
+                <a href="/2017/03/30/YDKJS4-this/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/03/30/YDKJS4-this/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -393,7 +393,7 @@
 
           
           
-             <span id="/2017/03/30/You-Don't-Know-Javascript4/" class="leancloud_visitors" data-flag-title="You don't know JavaScript(Chapter 2)">
+             <span id="/2017/03/30/YDKJS4-this/" class="leancloud_visitors" data-flag-title="YDKJS-this">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -560,25 +560,6 @@
 
     <div class="post-spread">
       
-        <div class="ds-share flat" data-thread-key="2017/03/30/You-Don't-Know-Javascript4/"
-     data-title="You don't know JavaScript(Chapter 2)"
-     data-content=""
-     data-url="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/">
-  <div class="ds-share-inline">
-    <ul  class="ds-share-icons-16">
-
-      <li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-      <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-      <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-      <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-      <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-
-    </ul>
-    <div class="ds-share-icons-more">
-    </div>
-  </div>
-</div>
-      
     </div>
   </div>
 
@@ -586,15 +567,12 @@
           </div>
           
 
-  <p>热评文章</p>
-  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
-
 
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/03/30/You-Don't-Know-Javascript4/"
-           data-title="You don't know JavaScript(Chapter 2)" data-url="http://www.yevvb.com/2017/03/30/You-Don't-Know-Javascript4/">
+      <div class="ds-thread" data-thread-key="2017/03/30/YDKJS4-this/"
+           data-title="YDKJS-this" data-url="http://www.yevvb.com/2017/03/30/YDKJS4-this/">
       </div>
     
   </div>
