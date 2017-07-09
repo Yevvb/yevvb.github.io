@@ -86,7 +86,7 @@
 <link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="reading,Javascript,JS secrets,作用域,闭包," />
+  <meta name="keywords" content="Javascript,reading,JS secrets,作用域,闭包," />
 
 
 
@@ -102,16 +102,25 @@
 
 
 
-<meta name="description" content="JS 被广泛使用，它是支撑起网页内容交互体验的技术基础。JavaScript 极易上手，但是真正掌握的人却比较少。日常所用的仅仅是它的冰山一角。《你不知道的 JavaScript》（后文略写《本书》）所做的事情就是深入理解 JavaScript，尤其是难的那一部分。">
+<meta name="description" content="《你不知道的 JavaScript》，遇见你还不太晚！
+作用域
+编译原理
+“动态”，“解释执行”每个人都知道，但《本书》认为其实为一门编译语言（它不是提前编译的，编译结果也不能在分布式系统中进行移植）。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="YDKJS-scope">
 <meta property="og:url" content="http://www.yevvb.com/2017/03/14/YDKJS1-scope/index.html">
 <meta property="og:site_name" content="Yevvb">
-<meta property="og:description" content="JS 被广泛使用，它是支撑起网页内容交互体验的技术基础。JavaScript 极易上手，但是真正掌握的人却比较少。日常所用的仅仅是它的冰山一角。《你不知道的 JavaScript》（后文略写《本书》）所做的事情就是深入理解 JavaScript，尤其是难的那一部分。">
-<meta property="og:updated_time" content="2017-07-09T10:21:58.966Z">
+<meta property="og:description" content="《你不知道的 JavaScript》，遇见你还不太晚！
+作用域
+编译原理
+“动态”，“解释执行”每个人都知道，但《本书》认为其实为一门编译语言（它不是提前编译的，编译结果也不能在分布式系统中进行移植）。">
+<meta property="og:updated_time" content="2017-07-09T10:43:34.612Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="YDKJS-scope">
-<meta name="twitter:description" content="JS 被广泛使用，它是支撑起网页内容交互体验的技术基础。JavaScript 极易上手，但是真正掌握的人却比较少。日常所用的仅仅是它的冰山一角。《你不知道的 JavaScript》（后文略写《本书》）所做的事情就是深入理解 JavaScript，尤其是难的那一部分。">
+<meta name="twitter:description" content="《你不知道的 JavaScript》，遇见你还不太晚！
+作用域
+编译原理
+“动态”，“解释执行”每个人都知道，但《本书》认为其实为一门编译语言（它不是提前编译的，编译结果也不能在分布式系统中进行移植）。">
 
 
 
@@ -420,10 +429,10 @@
       
 
       
-        <p>JS 被广泛使用，它是支撑起网页内容交互体验的技术基础。JavaScript 极易上手，但是真正掌握的人却比较少。日常所用的仅仅是它的冰山一角。《你不知道的 JavaScript》（后文略写《本书》）所做的事情就是深入理解 JavaScript，尤其是难的那一部分。<a id="more"></a>每次遇到 JavaScript 中出乎意料的部分时，能做到不去责怪语言，而是从中探究排除多样性，去理解 JavaScript 中“好的地方”，学会欣赏一门语言。</p>
+        <p>《你不知道的 JavaScript》，遇见你还不太晚！</p>
 <h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><ol>
 <li><p><strong>编译原理</strong></p>
-<p>“动态”，“解释执行”每个人都知道，但《本书》认为其实为一门编译语言（它不是提前编译的，编译结果也不能在分布式系统中进行移植）。</p>
+<p>“动态”，“解释执行”每个人都知道，但《本书》认为其实为一门编译语言（它不是提前编译的，编译结果也不能在分布式系统中进行移植）。<a id="more"></a></p>
 <p>一般的编译器，其一段源代码执行前经历以下三步：</p>
 <ul>
 <li>分词/词法分析（Tokenizing/Lexing）</li>
@@ -490,9 +499,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/reading/" rel="tag"># reading</a>
-          
             <a href="/tags/Javascript/" rel="tag"># Javascript</a>
+          
+            <a href="/tags/reading/" rel="tag"># reading</a>
           
             <a href="/tags/JS-secrets/" rel="tag"># JS secrets</a>
           
