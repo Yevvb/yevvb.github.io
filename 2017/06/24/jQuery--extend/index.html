@@ -102,16 +102,22 @@
 
 
 
-<meta name="description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
+<meta name="description" content="常见的面试问题，解读源码。（jQuery-2.0.3.js）
+extend() 的用法123456789$.extend( [deep], target, object1 [,objectN] )$.fn.extend( object )// 传入一个对象字面量，作为JQ插件的写法// 传入多个对象字面量，全部扩展到第一个对象中// 第一个传入布尔值 true，代表深拷贝，不传默认浅拷贝
+注意 e">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jQuery(1)--基础概念">
-<meta property="og:url" content="http://www.yevvb.com/2017/06/04/jQuery(1)--基础/index.html">
+<meta property="og:title" content="jQuery--extend实现">
+<meta property="og:url" content="http://www.yevvb.com/2017/06/24/jQuery--extend/index.html">
 <meta property="og:site_name" content="Yevvb">
-<meta property="og:description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
-<meta property="og:updated_time" content="2017-07-08T06:54:52.183Z">
+<meta property="og:description" content="常见的面试问题，解读源码。（jQuery-2.0.3.js）
+extend() 的用法123456789$.extend( [deep], target, object1 [,objectN] )$.fn.extend( object )// 传入一个对象字面量，作为JQ插件的写法// 传入多个对象字面量，全部扩展到第一个对象中// 第一个传入布尔值 true，代表深拷贝，不传默认浅拷贝
+注意 e">
+<meta property="og:updated_time" content="2017-07-12T14:09:49.716Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="jQuery(1)--基础概念">
-<meta name="twitter:description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
+<meta name="twitter:title" content="jQuery--extend实现">
+<meta name="twitter:description" content="常见的面试问题，解读源码。（jQuery-2.0.3.js）
+extend() 的用法123456789$.extend( [deep], target, object1 [,objectN] )$.fn.extend( object )// 传入一个对象字面量，作为JQ插件的写法// 传入多个对象字面量，全部扩展到第一个对象中// 第一个传入布尔值 true，代表深拷贝，不传默认浅拷贝
+注意 e">
 
 
 
@@ -139,13 +145,13 @@
 
 
 
-  <link rel="canonical" href="http://www.yevvb.com/2017/06/04/jQuery(1)--基础/"/>
+  <link rel="canonical" href="http://www.yevvb.com/2017/06/24/jQuery--extend/"/>
 
 
 
 
 
-  <title> jQuery(1)--基础概念 | Yevvb </title>
+  <title> jQuery--extend实现 | Yevvb </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -291,7 +297,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/06/04/jQuery(1)--基础/">
+  <link itemprop="mainEntityOfPage" href="http://www.yevvb.com/2017/06/24/jQuery--extend/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="叶文斌">
@@ -315,7 +321,7 @@
             
             
               
-                jQuery(1)--基础概念
+                jQuery--extend实现
               
             
           </h1>
@@ -330,8 +336,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-04T14:23:39+08:00">
-                2017-06-04
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2017-06-24T22:05:27+08:00">
+                2017-06-24
               </time>
             
 
@@ -382,8 +388,8 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2017/06/04/jQuery(1)--基础/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/04/jQuery(1)--基础/" itemprop="commentCount"></span>
+                <a href="/2017/06/24/jQuery--extend/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/06/24/jQuery--extend/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -393,7 +399,7 @@
 
           
           
-             <span id="/2017/06/04/jQuery(1)--基础/" class="leancloud_visitors" data-flag-title="jQuery(1)--基础概念">
+             <span id="/2017/06/24/jQuery--extend/" class="leancloud_visitors" data-flag-title="jQuery--extend实现">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -420,45 +426,22 @@
       
 
       
-        <p>JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想<a id="more"></a> 就是 ———— write less, do more. 简化通用操作，隐藏浏览器之间的差异，使得web开发变得更加简单。</p>
-<h3 id="jQuery-好在哪里"><a href="#jQuery-好在哪里" class="headerlink" title="jQuery 好在哪里"></a>jQuery 好在哪里</h3><ul>
-<li>丰富强大的语法（CSS选择器），用来查询文档元素</li>
-<li>高效的查询方法，用来找到与CSS选择器匹配的文档元素集</li>
-<li>一套有用的方法，用来操作选中的元素</li>
-<li>强大的函数式编程技巧，用来批量操作元素集，而不是每次操作单个</li>
-<li>简单的语言用法，链式调用，表示一系列操作</li>
-</ul>
-<h3 id="jQuery-能做什么"><a href="#jQuery-能做什么" class="headerlink" title="jQuery 能做什么"></a>jQuery 能做什么</h3><ul>
-<li>查询并操作结果</li>
-<li>设置HTML属性、CSS样式和类、HTML表单的值和元素内容、位置宽高、以及数据</li>
-<li>改变文档结构：对元素进行插入、替换、包装和删除操作</li>
-<li>跨浏览器时间模型</li>
-<li>实现动画视觉效果</li>
-<li>Ajax工具，用脚本发起http请求</li>
-<li>工具函数</li>
-<li>选择器的语法以及高级选择方法</li>
-<li>编写插件扩展jQuery</li>
-<li>UI类库</li>
-</ul>
-<h3 id="jQuery-基础"><a href="#jQuery-基础" class="headerlink" title="jQuery 基础"></a>jQuery 基础</h3><p><strong>jQuery():</strong></p>
-<p>jQuery():这是jQuery类库定义的一个全局函数，$是别名。注意这是一个工厂函数，而不是构造函数，它返回一个新创建的对象，但是并没有和 new 一起使用。</p>
-<p><strong>四种调用方式</strong></p>
-<ul>
-<li><p>传入CSS选择器，返回当前文档中匹配的元素集  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- $() 简单的将传入的Element、Document或Window对象封装成jQuery对象并返回，使得可以使用jQuery方法来操作而非原生DOM方法  </div><div class="line">```$(document)  $(this)</div></pre></td></tr></table></figure></p>
-</li>
-<li><p>传入HTML文本，根据传入的文本创建HTML元素并封装为jQuery对象返回，但是并不插入到文档中，但可以使用jQuery方法很方便的插入到你想要的位置。  <figure class="highlight plain"><figcaption><span>img = $("<img>", &#123; src: url,css: &#123;borderWidth: 5&#125;,click: handleClick&#125;);```  第一个参数必须包含一个带有尖角括号的HTML标签，接受可选的第二参数，可以传递Document对象来指定与所创建元素相关联的文档。</span></figcaption><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"></div><div class="line">- 传入一个函数，当文档加载完毕时且DOM可以操作时调用该函数。  ``` jQuery(function()&#123; //do something &#125;); ```  老式的写法为  ``` $(document).ready(f)</div></pre></td></tr></table></figure></p>
-</li>
-</ul>
-<h3 id="jQuery-术语"><a href="#jQuery-术语" class="headerlink" title="jQuery 术语"></a>jQuery 术语</h3><p><strong>jQuery 函数</strong><br>jQuery函数是 jQuery 或 $() 的值。该函数用来创建 jQuery 对象，用来注册 DOM 就绪时需要调用的处理程序，还用作 jQuery 的命名空间。</p>
-<p><strong>jQuery 对象</strong><br>jQuery对象是由jQuery函数返回的对象。一个jQuery对象表示一组文档元素，也叫做“jQuery结果”、“jQuery集” 或 “包装集”。</p>
-<p><strong>“选中元素”</strong><br>当传递CSS选择器给jQuery函数时返回的文档元素集。这里的“选中”是指CSS选择器。</p>
-<p><strong>jQuery 函数</strong><br>jQuery函数是指定义在jQuery命名空间中的函数，例如 jQuery.noConflict().也可以称为静态方法。</p>
-<p><strong>jQuery 方法</strong><br>jQuery方法是指由jQuery函数放回的jQuery对象的方法。是jQuery类库最重要和强大的部分。</p>
-<p><em>区分 jQuery函数 和 jQuery方法</em></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// jQuery的each()函数用来</span></div><div class="line"><span class="comment">// 对数组a中的每一个元素都调用一次函数f</span></div><div class="line">$.each(a,f);</div><div class="line"></div><div class="line"><span class="comment">// 调用jQuery()函数获取表示文档中所以&lt;a&gt;元素的jQuery对象</span></div><div class="line"><span class="comment">// 然后调用该jQuery对象的each()方法</span></div><div class="line"><span class="comment">// 对选中的每一个元素调用一次函数f</span></div><div class="line">$(<span class="string">'a'</span>).each(f);</div></pre></td></tr></table></figure>
-<p>唯一要区别的是jQuery函数和jQuery对象方法，搞清楚这里面的差异。</p>
-<p>通常我们使用 $.each() 来表示 jQuery 函数，使用 .each() 来表示 jQuery 方法。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>需要注意的是jQuery方法和jQuery函数的差别，以及jQuery对象的概念。</p>
+        <p>常见的面试问题，解读源码。<em>（jQuery-2.0.3.js）</em></p>
+<h3 id="extend-的用法"><a href="#extend-的用法" class="headerlink" title="extend() 的用法"></a>extend() 的用法</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">$.extend( [deep], target, object1 [,objectN] )</div><div class="line"></div><div class="line">$.fn.extend( object )</div><div class="line"></div><div class="line"><span class="comment">// 传入一个对象字面量，作为JQ插件的写法</span></div><div class="line"></div><div class="line"><span class="comment">// 传入多个对象字面量，全部扩展到第一个对象中</span></div><div class="line"></div><div class="line"><span class="comment">// 第一个传入布尔值 true，代表深拷贝，不传默认浅拷贝</span></div></pre></td></tr></table></figure>
+<h3 id="注意-extend-的-this-对象"><a href="#注意-extend-的-this-对象" class="headerlink" title="注意 extend 的 this 对象"></a>注意 extend 的 this 对象</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// jquery-2.0.3.js:285</span></div><div class="line">jQuery.extend = jQuery.fn.extend = func()&#123;&#125;;</div><div class="line"></div><div class="line"><span class="comment">// 同一个方法，被两个对象引用，注意里面的区别</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> a = &#123;</div><div class="line">  <span class="attr">aaa</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">'aaa'</span>); &#125;,</div><div class="line">  <span class="attr">bbb</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123; <span class="built_in">console</span>.log(<span class="string">'bbb'</span>); &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">$.extend( a );</div><div class="line"><span class="comment">// 这里 $.extend =&gt; this =&gt; $/jQuery =&gt; $.aaa()</span></div><div class="line"></div><div class="line">$.fn.extend( a );</div><div class="line"><span class="comment">// 这里 $.fn.extend =&gt; this =&gt; $.fn/扩展实例 =&gt; $().aaa()</span></div><div class="line"></div><div class="line"><span class="comment">// 区别就是一个扩展jQuery函数，一个是扩展jQuery对象方法(实例方法)</span></div><div class="line"><span class="comment">// 只是这两者扩展调用的方法都指向同一个函数，实现方式差异不大</span></div></pre></td></tr></table></figure>
+<h3 id="jQuery-中的实现逻辑"><a href="#jQuery-中的实现逻辑" class="headerlink" title="jQuery 中的实现逻辑"></a>jQuery 中的实现逻辑</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">$.extend = $.fn.extend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 定义一些变量</span></div><div class="line">  </div><div class="line">  <span class="keyword">if</span>()&#123;&#125;  <span class="comment">// 看是否为深拷贝</span></div><div class="line">  </div><div class="line">  <span class="keyword">if</span>()&#123;&#125;  <span class="comment">// 看看参数是否正确</span></div><div class="line">  </div><div class="line">  <span class="keyword">if</span>()&#123;&#125;  <span class="comment">// 看是否为插件</span></div><div class="line">  </div><div class="line">  <span class="keyword">for</span>()&#123;  <span class="comment">// 可能有多个对象的情况</span></div><div class="line">  </div><div class="line">    <span class="keyword">if</span>()&#123;&#125;  <span class="comment">// 防止循环引用</span></div><div class="line">    </div><div class="line">    <span class="keyword">if</span>()&#123;&#125;  <span class="comment">// 深拷贝</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>&#123;&#125;  <span class="comment">// 浅拷贝</span></div><div class="line">  &#125;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="extend-源码"><a href="#extend-源码" class="headerlink" title="extend 源码"></a>extend 源码</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// jquery-2.0.3.js:285</span></div><div class="line">jQuery.extend = jQuery.fn.extend = <span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> options, name, src, copy, copyIsArray, clone,</div><div class="line">      target = <span class="built_in">arguments</span>[<span class="number">0</span>] || &#123;&#125;,</div><div class="line">      i = <span class="number">1</span>,</div><div class="line">      length = <span class="built_in">arguments</span>.length,</div><div class="line">      deep = <span class="literal">false</span>;</div><div class="line">      </div><div class="line">  <span class="comment">// 是否为深拷贝</span></div><div class="line">  <span class="keyword">if</span>( <span class="keyword">typeof</span> target === <span class="string">'boolean'</span> )&#123;</div><div class="line">    deep = target;</div><div class="line">    target = <span class="built_in">arguments</span>[<span class="number">1</span>] || &#123;&#125;;</div><div class="line">    <span class="comment">// skip the boolean and target</span></div><div class="line">    i = <span class="number">2</span>;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 检查参数，如果既不是对象也不是函数而是字符串</span></div><div class="line">  <span class="keyword">if</span>( <span class="keyword">typeof</span> target !== <span class="string">"object"</span> &amp;&amp; !jQuery.isFunction(target) )&#123;</div><div class="line">    target = &#123;&#125;;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 如果只传入一个对象</span></div><div class="line">  <span class="keyword">if</span>( length === i )&#123;</div><div class="line">    target = <span class="keyword">this</span>;</div><div class="line">    --i;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="comment">// 其他情况说明</span></div><div class="line">  <span class="keyword">for</span>( ; i&lt;length; i++ )&#123;</div><div class="line">    <span class="comment">// 只处理不为空、undefined的值</span></div><div class="line">    <span class="keyword">if</span>( (options = <span class="built_in">arguments</span>[ i ]) != <span class="literal">null</span> )&#123;</div><div class="line">      <span class="comment">// 继承对象</span></div><div class="line">      <span class="keyword">for</span>( name <span class="keyword">in</span> options )&#123;</div><div class="line">        src = target[ name ];</div><div class="line">        copy = options[ name ];</div><div class="line">        </div><div class="line">        <span class="comment">// 防止循环引用</span></div><div class="line">        <span class="keyword">if</span>( target === copy )&#123;</div><div class="line">          <span class="keyword">continue</span>;</div><div class="line">        &#125;</div><div class="line">        </div><div class="line">        <span class="comment">// 深拷贝</span></div><div class="line">        <span class="keyword">if</span>( deep &amp;&amp; copy &amp;&amp; ( jQuery.isPlainObject(copy) || ( copyIsArray = jQuery.isArray(copy) ) )&#123;</div><div class="line">          <span class="keyword">if</span>( copyIsArray )&#123;</div><div class="line">            copyIsArray = <span class="literal">false</span>;</div><div class="line">            clone = src &amp;&amp; jQuery.isArray(src) ? src : [];</div><div class="line">          &#125; <span class="keyword">else</span> &#123;</div><div class="line">            clone = src &amp;&amp; jQuery.isPlainObject(src) ? src : &#123;&#125;;</div><div class="line">          &#125;</div><div class="line">          </div><div class="line">          <span class="comment">// 不动原对象，直接复制，如果原对象也是数组或对象</span></div><div class="line">          target[ name ] = jQuery.extend( deep, clone, copy );</div><div class="line">          </div><div class="line">        <span class="comment">// don't bring undefined values  </span></div><div class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ( copy !== <span class="literal">undefined</span> )&#123;</div><div class="line">          <span class="comment">// 浅拷贝</span></div><div class="line">          target[ name ] = copy;</div><div class="line">        &#125;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  <span class="keyword">return</span> target;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<h3 id="简单实现-extend-函数"><a href="#简单实现-extend-函数" class="headerlink" title="简单实现 extend 函数"></a>简单实现 extend 函数</h3><p>浅拷贝es5中已经有 <code>Object.assign()</code>，大多数情况下，使用该方法。</p>
+<p>深拷贝：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 类型判断方法</span></div><div class="line"><span class="keyword">var</span> class2type = &#123;&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">type</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> obj == <span class="literal">null</span> ? <span class="built_in">String</span>(obj) : class2type[toString.call(obj)] || <span class="string">"object"</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isFunction</span>(<span class="params">value</span>)</span>&#123; <span class="keyword">return</span> type(value) == <span class="string">"function"</span> &#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isWindow</span>(<span class="params">obj</span>) </span>&#123; <span class="keyword">return</span> obj != <span class="literal">null</span> &amp;&amp; obj == obj.window &#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isDocument</span>(<span class="params">obj</span>) </span>&#123; <span class="keyword">return</span> obj != <span class="literal">null</span> &amp;&amp; obj.nodeType == obj.DOCUMENT_NODE &#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isObject</span>(<span class="params">obj</span>) </span>&#123; <span class="keyword">return</span> type(obj) === <span class="string">"object"</span> &#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">isPlainObject</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> isObject(obj) &amp;&amp; !isWindow(obj) &amp;&amp; <span class="built_in">Object</span>.getPrototypeOf(obj) == <span class="built_in">Object</span>.prototype</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> isArray = <span class="built_in">Array</span>.isArray || <span class="function"><span class="keyword">function</span>(<span class="params">object</span>)</span>&#123; <span class="keyword">return</span> object <span class="keyword">instanceof</span> <span class="built_in">Array</span>&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">extend</span>(<span class="params">target, source, deep</span>) </span>&#123;</div><div class="line">  <span class="keyword">for</span> (key <span class="keyword">in</span> source)</div><div class="line">    <span class="keyword">if</span> (deep &amp;&amp; (isPlainObject(source[key])) || isArray(source[key])) &#123;</div><div class="line">      <span class="keyword">if</span> (isPlainObject(source[key]) &amp;&amp; !isPlainObject(target[key]))</div><div class="line">        target[key] = &#123;&#125;</div><div class="line">      <span class="keyword">if</span> (isArray(source[key]) &amp;&amp; !isArray(target[key]))</div><div class="line">        target[key] = []</div><div class="line">      extend(target[key], source[key], deep)</div><div class="line">    &#125;</div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span> (source[key] !== <span class="literal">undefined</span>) target[key] = source[key]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>测试一下</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> obj1 = &#123;</div><div class="line">  <span class="attr">iger</span>: &#123;<span class="attr">age</span>: <span class="number">30</span>&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj2 = &#123;</div><div class="line">  <span class="attr">iger</span>: &#123;<span class="attr">sexy</span>: <span class="string">'man'</span>&#125;</div><div class="line">&#125;</div><div class="line"><span class="keyword">var</span> obj3 = extend(obj1, obj2, <span class="literal">true</span>);</div><div class="line"><span class="built_in">console</span>.log(obj3);</div></pre></td></tr></table></figure>
+<p><strong>其他方式实现</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// json 序列化和反序列化实现简单深拷贝</span></div><div class="line"></div><div class="line"><span class="keyword">var</span> origin = &#123;<span class="string">"a"</span>: <span class="string">"aaa"</span>&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> copy = <span class="built_in">JSON</span>.parse(<span class="built_in">JSON</span>.stringify(origin))</div></pre></td></tr></table></figure>
+<h3 id="继承-extend-小结"><a href="#继承-extend-小结" class="headerlink" title="继承 extend 小结"></a>继承 extend 小结</h3><p>jQuery 中使用的继承是拷贝继承</p>
+<p>类式继承 通过 new 构造函数</p>
+<p>原型继承 通过 {}</p>
+<p>拷贝继承：用的更普遍，中括号运算符总能代替点运算符</p>
 
       
     </div>
@@ -495,8 +478,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/05/04/Learning-How-to-Learn/" rel="next" title="How to Learning?">
-                <i class="fa fa-chevron-left"></i> How to Learning?
+              <a href="/2017/06/06/jQuery(4)--事件/" rel="next" title="jQuery(4)--事件">
+                <i class="fa fa-chevron-left"></i> jQuery(4)--事件
               </a>
             
           </div>
@@ -504,10 +487,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/04/jQuery(2)--getter&setter/" rel="prev" title="jQuery(2)--getter&setter">
-                jQuery(2)--getter&setter <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -533,8 +512,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2017/06/04/jQuery(1)--基础/"
-           data-title="jQuery(1)--基础概念" data-url="http://www.yevvb.com/2017/06/04/jQuery(1)--基础/">
+      <div class="ds-thread" data-thread-key="2017/06/24/jQuery--extend/"
+           data-title="jQuery--extend实现" data-url="http://www.yevvb.com/2017/06/24/jQuery--extend/">
       </div>
     
   </div>
@@ -654,7 +633,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-好在哪里"><span class="nav-number">1.</span> <span class="nav-text">jQuery 好在哪里</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-能做什么"><span class="nav-number">2.</span> <span class="nav-text">jQuery 能做什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-基础"><span class="nav-number">3.</span> <span class="nav-text">jQuery 基础</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-术语"><span class="nav-number">4.</span> <span class="nav-text">jQuery 术语</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#extend-的用法"><span class="nav-number">1.</span> <span class="nav-text">extend() 的用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意-extend-的-this-对象"><span class="nav-number">2.</span> <span class="nav-text">注意 extend 的 this 对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-中的实现逻辑"><span class="nav-number">3.</span> <span class="nav-text">jQuery 中的实现逻辑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#extend-源码"><span class="nav-number">4.</span> <span class="nav-text">extend 源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#简单实现-extend-函数"><span class="nav-number">5.</span> <span class="nav-text">简单实现 extend 函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承-extend-小结"><span class="nav-number">6.</span> <span class="nav-text">继承 extend 小结</span></a></li></ol></div>
             
 
           </div>

@@ -108,7 +108,7 @@
 <meta property="og:url" content="http://www.yevvb.com/2017/03/30/YDKJS4-this/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
-<meta property="og:updated_time" content="2017-07-09T10:26:15.681Z">
+<meta property="og:updated_time" content="2017-07-10T05:03:43.278Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="YDKJS-this">
 <meta name="twitter:description" content="this 在 JS 中是一个非常独特巧妙的存在，也是最复杂的机制之一，被定义在所有函数的作用域中（箭头函数除外）。即使是非常有经验的开发者也不一定能够说清楚到底 this 是什么（这句话我觉得不对O(∩_∩)O~）。">
@@ -478,15 +478,29 @@
 <p>当有意无意的创建了一个函数的间接引用时，该函数会应用默认绑定。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log( <span class="keyword">this</span>.a );</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="keyword">var</span> a = <span class="number">2</span>;</div><div class="line"><span class="keyword">var</span> o = &#123; <span class="attr">a</span>: <span class="number">3</span>, <span class="attr">foo</span>: foo &#125;;</div><div class="line"><span class="keyword">var</span> p = &#123; <span class="attr">a</span>: <span class="number">4</span> &#125;;</div><div class="line"></div><div class="line">o.foo(); <span class="comment">// 3</span></div><div class="line">(p.foo = o.foo)(); <span class="comment">// 2</span></div></pre></td></tr></table></figure>
 <p><strong>this 词法</strong></p>
-<p>ES6 定义了一种新的函数 箭头函数。这种函数不适用上述4种规则，而是根据外部作用域来决定 this，其本身不没有 this。</p>
+<p>ES6 定义了一种新的函数 箭头函数。这种函数不适用上述4种规则，而是根据外部作用域来决定 this，其本身并没有 this。</p>
 <p>其原理同于 self = this 机制</p>
 <p>更多关于箭头函数请看nodejs论坛的一片帖子——<a href="https://cnodejs.org/topic/584a207a3ebad99b336b1ede" target="_blank" rel="external">少年，不要滥用箭头函数啊</a></p>
 <p><strong>实现软绑定</strong></p>
-<p>可以默认绑定一个除全局对象和 undefined 意外的值，实现和硬绑定相同的效果，同时保留隐式绑定或者显示绑定修改 this 的能力：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!<span class="built_in">Function</span>.prototype.softBind) &#123;</div><div class="line">  <span class="built_in">Function</span>.prototype.softBind = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">    <span class="comment">// 这里的 this 是 Function.prototype 对象？</span></div><div class="line">    <span class="keyword">var</span> fn = <span class="keyword">this</span>;</div><div class="line">    <span class="comment">// 捕获 curried 参数，即除指定对象之外的参数</span></div><div class="line">    <span class="keyword">var</span> curried = [].slice.call( <span class="built_in">arguments</span>, <span class="number">1</span> );</div><div class="line">    <span class="keyword">var</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> fn.apply(</div><div class="line">        <span class="comment">// 如果 this 绑定到全局对象或者 undefined，那么就把 指定的 obj 对象绑定到 this，否则就不修改 this</span></div><div class="line">        (!<span class="keyword">this</span> || <span class="keyword">this</span> === (<span class="built_in">window</span> || global)) ? obj : <span class="keyword">this</span>, curried.concat.apply( curried, <span class="built_in">arguments</span> )</div><div class="line">      );</div><div class="line">    &#125;;</div><div class="line">    bound.prototype = <span class="built_in">Object</span>.create( fn.prototype );</div><div class="line">    <span class="comment">// 注意这里返回的是 bound 执行后的返回值</span></div><div class="line">    <span class="keyword">return</span> bound();</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以默认绑定一个除全局对象和 undefined 以外的值，实现和硬绑定相同的效果，同时保留隐式绑定或者显示绑定修改 this 的能力：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> (!<span class="built_in">Function</span>.prototype.softBind) &#123;</div><div class="line">  <span class="built_in">Function</span>.prototype.softBind = <span class="function"><span class="keyword">function</span>(<span class="params">obj</span>) </span>&#123;</div><div class="line">    <span class="comment">// 这里的 this 是 Function.prototype 对象？ =&gt; √</span></div><div class="line">    <span class="keyword">var</span> fn = <span class="keyword">this</span>;</div><div class="line">    <span class="comment">// 捕获 curried 参数，即除指定对象之外的参数</span></div><div class="line">    <span class="keyword">var</span> curried = [].slice.call( <span class="built_in">arguments</span>, <span class="number">1</span> );</div><div class="line">    <span class="keyword">var</span> bound = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">return</span> fn.apply(</div><div class="line">        <span class="comment">// 如果 this 绑定到全局对象或者 undefined，那么就把 指定的 obj 对象绑定到 this，否则就不修改 this</span></div><div class="line">        (!<span class="keyword">this</span> || <span class="keyword">this</span> === (<span class="built_in">window</span> || global)) ? obj : <span class="keyword">this</span>, curried.concat.apply( curried, <span class="built_in">arguments</span> )</div><div class="line">      );</div><div class="line">    &#125;;</div><div class="line">    bound.prototype = <span class="built_in">Object</span>.create( fn.prototype );</div><div class="line">    <span class="comment">// 注意这里返回的是 bound 执行后的返回值</span></div><div class="line">    <span class="keyword">return</span> bound();</div><div class="line">  &#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>请问上面的 this 会指向谁呢？思考运行时函数调用的位置以及对象！</p>
 <h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>四大绑定规则，ES6 箭头函数！空对象 DMZ ø 创建！</p>
 <p>this –&gt; 函数调用位置判断 –&gt; 调用栈</p>
+<blockquote>
+<p>2017年7月10日 更新</p>
+</blockquote>
+<p><strong>《JavaScript设计模式与开发实践》</strong> <code>this</code>：</p>
+<ol>
+<li>函数是否作为对象的属性（隐式绑定）</li>
+<li>函数作为普通函数被调用（默认绑定）</li>
+<li>通过call、apply、bind调用（显式绑定）</li>
+<li>通过new操作符实例化（new绑定）</li>
+<li>箭头函数（上下文传递 =&gt; 这个应该加上）</li>
+</ol>
+<p>回头再看上面的例子，试着套用规则！</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"> <span class="keyword">var</span> obj = &#123;</div><div class="line">   <span class="attr">x</span>: <span class="number">10</span>,</div><div class="line"><span class="attr">fn</span>: <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">f</span>(<span class="params"></span>) </span>&#123;</div><div class="line">	<span class="built_in">console</span>.log(<span class="keyword">this</span>.x); <span class="comment">// undefined</span></div><div class="line">  &#125;</div><div class="line">  f();</div><div class="line">&#125;</div><div class="line"> &#125;;</div></pre></td></tr></table></figure>
+<p>这里的 f() 作为普通函数被调用，应用默认绑定，<code>this</code> 指向 <code>window</code>。</p>
 
       
     </div>
@@ -619,7 +633,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-count">14</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
