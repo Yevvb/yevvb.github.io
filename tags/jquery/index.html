@@ -105,7 +105,7 @@
 <meta name="description" content="Yevvb&apos;s life!">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Yevvb">
-<meta property="og:url" content="http://www.yevvb.com/tags/jquery/index.html">
+<meta property="og:url" content="http://www.yevvb.com/tags/jQuery/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="Yevvb&apos;s life!">
 <meta name="twitter:card" content="summary">
@@ -138,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="http://www.yevvb.com/tags/jquery/"/>
+  <link rel="canonical" href="http://www.yevvb.com/tags/jQuery/"/>
 
 
 
 
 
-  <title> 标签: jquery | Yevvb </title>
+  <title> 标签: jQuery | Yevvb </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -283,7 +283,7 @@
   <div id="posts" class="posts-collapse">
     <div class="collection-title">
       <h2 >
-        jquery
+        jQuery
         <small>标签</small>
       </h2>
     </div>
@@ -309,118 +309,6 @@
               datetime="2017-06-24T22:05:27+08:00"
               content="2017-06-24" >
           06-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/06/06/jQuery(4)--事件/" itemprop="url">
-              
-                <span itemprop="name">jQuery(4)--事件</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-06T20:43:11+08:00"
-              content="2017-06-06" >
-          06-06
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/06/05/jQuery(3)--修改文档/" itemprop="url">
-              
-                <span itemprop="name">jQuery(3)--修改文档结构</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-05T21:28:09+08:00"
-              content="2017-06-05" >
-          06-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/06/04/jQuery(2)--getter&setter/" itemprop="url">
-              
-                <span itemprop="name">jQuery(2)--getter&setter</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-04T19:41:22+08:00"
-              content="2017-06-04" >
-          06-04
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h1 class="post-title">
-        
-            <a class="post-title-link" href="/2017/06/04/jQuery(1)--基础/" itemprop="url">
-              
-                <span itemprop="name">jQuery(1)--基础概念</span>
-              
-            </a>
-        
-      </h1>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-06-04T14:23:39+08:00"
-              content="2017-06-04" >
-          06-04
         </time>
       </div>
 
@@ -472,7 +360,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -481,7 +369,7 @@
           
             <div class="site-state-item site-state-categories">
               
-                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-count">8</span>
                 <span class="site-state-item-name">分类</span>
               
             </div>
@@ -869,6 +757,72 @@
     function addCount(Counter) {
       var $visitors = $(".leancloud_visitors");
       var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+
+
+</body>
+</html>
       var title = $visitors.attr('data-flag-title').trim();
       var query = new AV.Query(Counter);
 
