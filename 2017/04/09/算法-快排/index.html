@@ -104,20 +104,20 @@
 
 <meta name="description" content="程序设计=算法+数据结构 
 
-引用这句话并不是想说其他，而是算法的重要性。慢慢来，先从基础算法–快排说起!">
+引用这句话并不是想说其他，而是算法的重要性。慢慢来，先从被誉为20世纪科学和工程领域的十大算法之一–快速排序说起!">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JS 快速排序">
 <meta property="og:url" content="http://www.yevvb.com/2017/04/09/算法-快排/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="程序设计=算法+数据结构 
 
-引用这句话并不是想说其他，而是算法的重要性。慢慢来，先从基础算法–快排说起!">
-<meta property="og:updated_time" content="2017-07-30T06:52:37.041Z">
+引用这句话并不是想说其他，而是算法的重要性。慢慢来，先从被誉为20世纪科学和工程领域的十大算法之一–快速排序说起!">
+<meta property="og:updated_time" content="2017-07-30T14:37:16.688Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JS 快速排序">
 <meta name="twitter:description" content="程序设计=算法+数据结构 
 
-引用这句话并不是想说其他，而是算法的重要性。慢慢来，先从基础算法–快排说起!">
+引用这句话并不是想说其他，而是算法的重要性。慢慢来，先从被誉为20世纪科学和工程领域的十大算法之一–快速排序说起!">
 
 
 
@@ -428,7 +428,7 @@
       
         <blockquote class="blockquote-center"><p>程序设计=算法+数据结构 </p>
 </blockquote>
-<p>引用这句话并不是想说其他，而是算法的重要性。慢慢来，先从基础算法–<strong>快排</strong>说起!<a id="more"></a></p>
+<p>引用这句话并不是想说其他，而是算法的重要性。慢慢来，先从被誉为20世纪科学和工程领域的十大算法之一–<strong>快速排序</strong>说起!<a id="more"></a></p>
 <h3 id="引用参考"><a href="#引用参考" class="headerlink" title="引用参考"></a>引用参考</h3><blockquote>
 <p><a href="http://www.ruanyifeng.com/blog/2011/04/quicksort_in_javascript.html" target="_blank" rel="external">阮一峰——快速排序（Quicksort）的Javascript实现</a><br><a href="http://jsdo.it/norahiko/oxIy/fullscreen" target="_blank" rel="external">排序动画演示</a></p>
 </blockquote>
@@ -439,7 +439,7 @@
 <h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><p>选基准 =&gt; 小的放左边 =&gt; 大的放右边 =&gt; 递归 =&gt; 长度为1则返回</p>
 <blockquote class="blockquote-center"><p>结束才是真正的开始 </p>
 </blockquote>
-<h3 id="《算法》有话要说"><a href="#《算法》有话要说" class="headerlink" title="《算法》有话要说"></a>《算法》有话要说</h3><p><strong>快速排序</strong></p>
+<h3 id="《算法》上的快速排序"><a href="#《算法》上的快速排序" class="headerlink" title="《算法》上的快速排序"></a>《算法》上的快速排序</h3><p><strong>快速排序</strong></p>
 <p>将数组排序的方式是：当两个子数组都有序时整个数组就自然有序；递归调用在处理整个数组之后；切分的位置取决于数组的内容。</p>
 <p><strong>归并排序</strong></p>
 <p>与快速排序互补：将数组分为两个子数组分别排序，并将有序的子数组归并以将整个数组排序；递归调用发生在处理整个数组之前；数组将会被等分。</p>
@@ -460,9 +460,8 @@
 </ol>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr, start, end</span>)</span>&#123;</div><div class="line">  <span class="comment">// 如果需要排序的数组内容长度小于1，跳出循环</span></div><div class="line">  <span class="comment">// 对 arr[start]进行一次切分，并获得其排位顺序下标 j</span></div><div class="line">  <span class="comment">// 对 arr (start,j-1) &amp; (j+1,end) 递归调用切分</span></div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">partition</span>(<span class="params">arr, start, end</span>)</span>&#123;</div><div class="line">  <span class="comment">// 进行一次切分，对 arr[start] 进行切分</span></div><div class="line">  <span class="comment">// 返回 arr[start] 的下标，因为该次切分总能确定它的顺序</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><strong>演示代码</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr, start, end</span>)</span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 对用户输入做判断，柯里化</span></div><div class="line">  <span class="comment">// 输入两个参数，对 arr[strat, length-1] 排序</span></div><div class="line">  <span class="comment">// 输入一个参数，对 arr[0, length-1] 排序</span></div><div class="line">  <span class="keyword">if</span>(end == <span class="literal">null</span>)&#123; end = arr.length <span class="number">-1</span> &#125;</div><div class="line">  <span class="keyword">if</span>(start == <span class="literal">null</span>)&#123; start = <span class="number">0</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span>(end &lt;= start) <span class="keyword">return</span>;</div><div class="line">  <span class="keyword">var</span> j = partition(arr, start, end);</div><div class="line">  quickSort(arr, start, j<span class="number">-1</span>);</div><div class="line">  quickSort(arr, j+<span class="number">1</span>, end);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">partition</span>(<span class="params">arr, start, end</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> v = arr[start]</div><div class="line">  <span class="keyword">var</span> i = start</div><div class="line">  <span class="keyword">var</span> j = end + <span class="number">1</span></div><div class="line">  <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</div><div class="line">    <span class="keyword">while</span>(arr[++i] &lt; v) <span class="keyword">if</span> (i == end) <span class="keyword">break</span>;</div><div class="line">   <span class="keyword">while</span>(arr[--j] &gt;= v) <span class="keyword">if</span> (j == start) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">if</span>(i &gt;= j) <span class="keyword">break</span>;</div><div class="line">    [arr[i], arr[j]] = [arr[j], arr[i]];</div><div class="line">  &#125;</div><div class="line">  [arr[start], arr[j]] = [arr[j], arr[start]]</div><div class="line">  <span class="keyword">return</span> j</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 测试一下，上述代码使用了ES6解构赋值，确保运行环境支持</span></div><div class="line"><span class="keyword">var</span> a = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">8</span>,<span class="number">7</span>,<span class="number">0</span>]</div><div class="line"></div><div class="line"><span class="comment">// 对数组部分内容进行排序</span></div><div class="line">quickSort(a, <span class="number">3</span>)</div><div class="line"><span class="built_in">console</span>.log(a) <span class="comment">// a =&gt; [3, 2, 1, 0, 4, 5, 6, 7, 8, 9]</span></div><div class="line"></div><div class="line"><span class="comment">// 对所有内容进行排序</span></div><div class="line">quickSort(a)</div><div class="line"><span class="built_in">console</span>.log(a) <span class="comment">// a =&gt; [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span></div></pre></td></tr></table></figure>
-<p><strong>值得深究的细节问题</strong></p>
-<ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">arr, start, end</span>)</span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 对用户输入做判断，柯里化</span></div><div class="line">  <span class="comment">// 输入两个参数，对 arr[strat, length-1] 排序</span></div><div class="line">  <span class="comment">// 输入一个参数，对 arr[0, length-1] 排序</span></div><div class="line">  <span class="keyword">if</span>(end == <span class="literal">null</span>)&#123; end = arr.length <span class="number">-1</span> &#125;</div><div class="line">  <span class="keyword">if</span>(start == <span class="literal">null</span>)&#123; start = <span class="number">0</span> &#125;</div><div class="line"></div><div class="line">  <span class="keyword">if</span>(end &lt;= start) <span class="keyword">return</span>;</div><div class="line">  <span class="keyword">var</span> j = partition(arr, start, end);</div><div class="line">  quickSort(arr, start, j<span class="number">-1</span>);</div><div class="line">  quickSort(arr, j+<span class="number">1</span>, end);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">partition</span>(<span class="params">arr, start, end</span>)</span>&#123;</div><div class="line">  <span class="keyword">var</span> v = arr[start]</div><div class="line">  <span class="keyword">var</span> i = start</div><div class="line">  <span class="keyword">var</span> j = end + <span class="number">1</span></div><div class="line">  <span class="keyword">while</span>(<span class="literal">true</span>)&#123;</div><div class="line">    <span class="keyword">while</span>(arr[++i] &lt; v) <span class="keyword">if</span> (i == end) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">while</span>(arr[--j] &gt;= v) <span class="keyword">if</span> (j == start) <span class="keyword">break</span>;</div><div class="line">    <span class="keyword">if</span>(i &gt;= j) <span class="keyword">break</span>;</div><div class="line">    [arr[i], arr[j]] = [arr[j], arr[i]];</div><div class="line">  &#125;</div><div class="line">  [arr[start], arr[j]] = [arr[j], arr[start]]</div><div class="line">  <span class="keyword">return</span> j</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">// 测试一下，上述代码使用了ES6解构赋值，确保运行环境支持</span></div><div class="line"><span class="keyword">var</span> a = [<span class="number">3</span>,<span class="number">2</span>,<span class="number">1</span>,<span class="number">6</span>,<span class="number">5</span>,<span class="number">4</span>,<span class="number">9</span>,<span class="number">8</span>,<span class="number">7</span>,<span class="number">0</span>]</div><div class="line"></div><div class="line"><span class="comment">// 对数组部分内容进行排序</span></div><div class="line">quickSort(a, <span class="number">3</span>)</div><div class="line"><span class="built_in">console</span>.log(a) <span class="comment">// a =&gt; [3, 2, 1, 0, 4, 5, 6, 7, 8, 9]</span></div><div class="line"></div><div class="line"><span class="comment">// 对所有内容进行排序</span></div><div class="line">quickSort(a)</div><div class="line"><span class="built_in">console</span>.log(a) <span class="comment">// a =&gt; [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]</span></div></pre></td></tr></table></figure>
+<h3 id="值得深究的细节问题"><a href="#值得深究的细节问题" class="headerlink" title="值得深究的细节问题"></a>值得深究的细节问题</h3><ol>
 <li>原地切分：不要创建新的数组，这样在递归的切分方法中的开销会得不偿失。</li>
 <li>别越界：小心扫描的指针不要跑出数组边界。（j==start）是多余的，a[start]不可能比自己小</li>
 <li>保持随机性：就算你选择的切分元素，最好也是随机的，切分后的数组也打乱。</li>
@@ -472,18 +471,17 @@
 </ol>
 <h3 id="算法改进"><a href="#算法改进" class="headerlink" title="算法改进"></a>算法改进</h3><p><strong>改进意见</strong></p>
 <ul>
-<li>（小数组）切换到<strong>插入排序</strong></li>
+<li>切换到<strong>插入排序</strong>（小数组）</li>
 <li>三取样切分：使用子数组的一小部分元素的中位数来切分数组，测试发现这样效果最佳。还可以将取样元素放在数组末尾作为‘哨兵’来去掉 partition() 中的边界数组测试。</li>
 <li>熵最优的排序：处理大量重复元素。例如一个元素全部重复的子数组，我们上面实现的快速排序还会继续将它切分为更小的数组。</li>
 </ul>
-<p><strong>解决办法</strong></p>
-<p>将数组切分为三部分，分别对应小于、等于和大于切分元素的数组元素。这种切分实现比二分法更复杂，也有很多不同的解决办法。 </p>
+<p><strong>解决办法</strong><br>将数组切分为三部分，分别对应小于、等于和大于切分元素的数组元素。这种切分实现比二分法更复杂，也有很多不同的解决办法。 </p>
 <blockquote class="blockquote-center"><p>E.W.Dijkstra 的荷兰国旗问题 </p>
 </blockquote>
 <p>Dijkstra 的解法 “三向切分的快速排序”：</p>
 <ul>
 <li>从左到右，维护一个指针 lt 使得 arr[start…lt-1] 中的元素都小于 v</li>
-<li>一个指针 gt 使得 arr[gt+1…end] 中的元素都大于 v</li>
+<li>从右到左，一个指针 gt 使得 arr[gt+1…end] 中的元素都大于 v</li>
 <li>一个指针 i 使得 arr[lt…i-1] 中的元素都等于 v</li>
 <li>arr[i…gt] 中的元素都还未确定</li>
 <li>开始时，i 和 start 相等，使用 comparable 接口对 a[i] 进行三向比较<ul>
@@ -695,7 +693,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用参考"><span class="nav-number">1.</span> <span class="nav-text">引用参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">2.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#《算法》有话要说"><span class="nav-number">5.</span> <span class="nav-text">《算法》有话要说</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序的切分"><span class="nav-number">6.</span> <span class="nav-text">快速排序的切分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法改进"><span class="nav-number">7.</span> <span class="nav-text">算法改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#引用参考"><span class="nav-number">1.</span> <span class="nav-text">引用参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序"><span class="nav-number">2.</span> <span class="nav-text">快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码实现"><span class="nav-number">3.</span> <span class="nav-text">代码实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#《算法》上的快速排序"><span class="nav-number">5.</span> <span class="nav-text">《算法》上的快速排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速排序的切分"><span class="nav-number">6.</span> <span class="nav-text">快速排序的切分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#值得深究的细节问题"><span class="nav-number">7.</span> <span class="nav-text">值得深究的细节问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法改进"><span class="nav-number">8.</span> <span class="nav-text">算法改进</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

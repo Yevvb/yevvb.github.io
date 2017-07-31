@@ -108,7 +108,7 @@
 <meta property="og:url" content="http://www.yevvb.com/2017/06/06/jQuery(4)--事件/index.html">
 <meta property="og:site_name" content="Yevvb">
 <meta property="og:description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
-<meta property="og:updated_time" content="2017-07-19T04:39:08.974Z">
+<meta property="og:updated_time" content="2017-07-30T14:43:03.628Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jQuery(4)--事件">
 <meta name="twitter:description" content="JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想">
@@ -422,7 +422,7 @@
       
         <p>JavaScript 核心API设计虽然简单，但是浏览器之间却严重不兼容，以致于客户端API过于复杂。jQuery 的设计思想<a id="more"></a> 就是 ———— write less, do more. 简化通用操作，隐藏浏览器之间的差异，使得web开发变得更加简单。</p>
 <h3 id="jQuery处理事件"><a href="#jQuery处理事件" class="headerlink" title="jQuery处理事件"></a>jQuery处理事件</h3><p>处理事件一直有个难点就是IE9以下的事件API与其他浏览器都不相同。为了解决这个问题，jQuery实现了一个统一事件API，可工作在所有浏览器中（当然随着版本迭代，旧浏览器也逐步被抛弃）。</p>
-<h3 id="事件处理程序的简单注册"><a href="#事件处理程序的简单注册" class="headerlink" title="事件处理程序的简单注册"></a>事件处理程序的简单注册</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//单机任意p段落时，改变背景色</span></div><div class="line">$(<span class="string">"p"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">			  $(<span class="keyword">this</span>).css(<span class="string">"background-color"</span>, <span class="string">"gray"</span>)</div><div class="line">			&#125;);</div></pre></td></tr></table></figure>
+<h3 id="事件处理程序的简单注册"><a href="#事件处理程序的简单注册" class="headerlink" title="事件处理程序的简单注册"></a>事件处理程序的简单注册</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//单击任意p段落时，改变背景色</span></div><div class="line">$(<span class="string">"p"</span>).click(<span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  $(<span class="keyword">this</span>).css(<span class="string">"background-color"</span>, <span class="string">"gray"</span>)</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>简单事件处理程序注册的方法：</p>
 <table>
 <thead>
